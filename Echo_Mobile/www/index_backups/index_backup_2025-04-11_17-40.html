@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Echo - Welcome</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    #greeting, #confirmation, #eye-button, #extra-buttons {
+      margin-top: 1.5rem;
+    }
+
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    #header img {
+      width: 40px;
+    }
+
+    #header h1 {
+      font-size: 2rem;
+      margin: 0;
+      line-height: 60px;
+      position: relative;
+      top: 10px;
+    }
+
+    .control-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .control-button {
+      padding: 0.6rem 1.4rem;
+      font-size: 1rem;
+      border-radius: 50px / 25px;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .control-button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+
+    #eye-icon {
+      width: 80px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    #eye-icon:hover {
+      transform: scale(1.1);
+    }
+
+    .sub-button {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      font-size: 1rem;
+      border-radius: 50px / 25px;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      transition: all 0.2s ease;
+    }
+
+    .sub-button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Left Eye Icon">
+    <h1 id="main-heading">Welcome to Echo</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Right Eye Icon">
+  </div>
+
+  <div id="intro">Please say your name when you're ready.</div>
+  <button id="name-button" onclick="listenForName()">🎤 Speak Your Name</button>
+
+  <div id="confirmation" style="display: none;">
+    <p>Did you say <span id="spoken-name"></span>?</p>
+    <button onclick="confirmName(true)">Yes</button>
+    <button onclick="confirmName(false)">No</button>
+  </div>
+
+  <div id="greeting" style="display: none;"></div>
+
+  <div id="eye-button" style="display: none;">
+    <div class="control-row">
+      <button class="control-button">🎙️ Voice Control</button>
+      <a href="image_reader.html" title="Open Echo’s Eyes">
+        <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Eye Icon" id="eye-icon">
+      </a>
+      <button class="control-button">👆 Touch Control</button>
+    </div>
+  </div>
+
+  <div id="extra-buttons" style="display: none;">
+    <button class="sub-button">🕒 Speak Time</button>
+    <button class="sub-button">📝 Take Note</button>
+    <button class="sub-button">🌟 Wisdom</button>
+    <button class="sub-button">😄 Tell Joke</button>
+    <button class="sub-button" onclick="readLatestImage()">📷 Read Latest Image</button>
+  </div>
+
+  <script>
+    let spokenName = "";
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-GB';
+
+      const voices = speechSynthesis.getVoices();
+      const preferredVoice = voices.find(v =>
+        v.name.includes("Google UK English Male") || v.name.includes("Daniel") || v.lang === "en-GB"
+      );
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+
+      speechSynthesis.speak(utterance);
+    }
+
+    function listenForName() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-GB';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      document.getElementById("intro").textContent = "Listening... Please say your name.";
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        spokenName = event.results[0][0].transcript;
+        document.getElementById("spoken-name").textContent = spokenName;
+        document.getElementById("confirmation").style.display = "block";
+        document.getElementById("intro").textContent = "";
+        speak(`Did you say ${spokenName}?`);
+      };
+
+      recognition.onerror = () => {
+        document.getElementById("intro").textContent = "Sorry, I couldn't hear that. Please try again.";
+      };
+    }
+
+    function confirmName(isConfirmed) {
+      if (isConfirmed) {
+        localStorage.setItem("echoUserName", spokenName);
+        const greeting = `Welcome, ${spokenName}.`;
+        document.getElementById("confirmation").style.display = "none";
+        document.getElementById("greeting").textContent = greeting;
+        document.getElementById("greeting").style.display = "block";
+        document.getElementById("main-heading").textContent = "Echo Eyes";
+        document.getElementById("name-button").style.display = "none";
+        document.getElementById("eye-button").style.display = "block";
+        document.getElementById("extra-buttons").style.display = "block";
+        speak(greeting);
+      } else {
+        spokenName = "";
+        document.getElementById("confirmation").style.display = "none";
+        document.getElementById("intro").textContent = "Please try saying your name again.";
+      }
+    }
+
+    function readLatestImage() {
+      speak("Reading the latest image is not supported in the browser yet. This will work in the desktop version of Echo.");
+    }
+
+    window.onload = () => {
+      const savedName = localStorage.getItem("echoUserName");
+      if (savedName) {
+        const greeting = `Welcome, ${savedName}.`;
+        document.getElementById("greeting").textContent = greeting;
+        document.getElementById("greeting").style.display = "block";
+        document.getElementById("intro").style.display = "none";
+        document.getElementById("main-heading").textContent = "Echo Eyes";
+        document.getElementById("name-button").style.display = "none";
+        document.getElementById("eye-button").style.display = "block";
+        document.getElementById("extra-buttons").style.display = "block";
+      }
+    };
+  </script>
+</body>
+</html>

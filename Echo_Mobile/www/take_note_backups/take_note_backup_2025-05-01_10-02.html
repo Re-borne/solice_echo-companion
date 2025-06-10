@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Echo - Take Note</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    #back-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 1.4rem;
+      padding: 0.5rem 1.4rem;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: bold;
+      border-radius: 50px / 25px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    #back-button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    #header img {
+      width: 40px;
+    }
+
+    #header h1 {
+      font-size: 2rem;
+      margin: 0;
+      line-height: 60px;
+      position: relative;
+      top: 10px;
+    }
+
+    #eye-icon {
+      width: 80px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      margin: 1.5rem 0;
+    }
+
+    #eye-icon:hover {
+      transform: scale(1.1);
+    }
+
+    #note-display {
+      margin: 2rem auto;
+      max-width: 500px;
+      font-size: 1.2rem;
+      font-style: italic;
+    }
+
+    button {
+      margin: 0.5rem;
+      padding: 0.8rem 1.4rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    #status {
+      margin-top: 1.5rem;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <a id="back-button" href="index.html">&lt;</a>
+
+  <div id="header">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Left Eye Icon">
+    <h1>Echo Eyes</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Right Eye Icon">
+  </div>
+
+  <a href="image_reader.html" title="Open Echo’s Eyes">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Eye Icon" id="eye-icon">
+  </a>
+
+  <div id="note-display">Press the button and speak your note.</div>
+  <button onclick="startListening()">🎤 Take Note</button>
+  <button onclick="saveNote()">💾 Save Note</button>
+
+  <div id="status"></div>
+
+  <script>
+    let currentNote = "";
+
+    function startListening() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-GB';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      document.getElementById("note-display").innerText = "Listening...";
+
+      recognition.onresult = function(event) {
+        currentNote = event.results[0][0].transcript;
+        document.getElementById("note-display").innerText = `"${currentNote}"`;
+        speak("I’ve recorded your note.");
+      };
+
+      recognition.onerror = function() {
+        document.getElementById("note-display").innerText = "Sorry, I couldn’t hear that.";
+      };
+
+      recognition.start();
+    }
+
+    function saveNote() {
+      if (!currentNote) return;
+      let savedNotes = JSON.parse(localStorage.getItem("echoNotes")) || [];
+      savedNotes.push(currentNote);
+      localStorage.setItem("echoNotes", JSON.stringify(savedNotes));
+      document.getElementById("status").innerText = "Note saved successfully.";
+      speak("Your note has been saved.");
+    }
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-GB';
+
+      const voices = speechSynthesis.getVoices();
+      const preferred = voices.find(v =>
+        v.name.includes("Google UK English Male") || v.name.includes("Daniel") || v.lang === "en-GB"
+      );
+      if (preferred) {
+        utterance.voice = preferred;
+      }
+
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+</body>
+</html>

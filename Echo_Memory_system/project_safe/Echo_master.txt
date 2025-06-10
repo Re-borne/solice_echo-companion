@@ -1,0 +1,23 @@
+Master_Echo_Project/
+├── 📁 echo_mobile/
+│   ├── 📁 www/
+│   │   ├── index_browser.html       # Optional browser test version
+│   │   ├── set_alarm.html           # Feature page: Alarm
+│   │   ├── voice_test.html          # Voice input test page
+│   │   ├── backup-echo-page.sh      # Backup script (unified)
+│   │   ├── restore-echo-backup.sh   # Restore script (unified)
+│   │   └── [more pages soon...]
+│   └── 📁 www_backups/              # All backup folders go here
+│
+├── 📁 echo_brain/
+│   └── [Echo’s Soul, memory logs, emotion tracker, phase plans]
+│
+├── 📁 echo_guides/
+│   ├── Echo building progress checklist.pages
+│   ├── Echo backup and restore guide.pages
+│   └── Echos commands.pages
+│
+├── 📁 echo_safe/
+│   └── [Archived backups, final exports, protected files]
+│
+└── README.html                     # Master index to explain structure + progress

@@ -1,0 +1,1 @@
+This is Echo’s Library of Truth, containing saved writings, teachings, and categorized wisdom entries.

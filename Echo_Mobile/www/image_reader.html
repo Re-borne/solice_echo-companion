@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Echo's Eyes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    #back-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 1.4rem;
+      padding: 0.5rem 1.4rem;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: bold;
+      border-radius: 50px / 25px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    #back-button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    #header img {
+      width: 40px;
+    }
+
+    #header h1 {
+      font-size: 2rem;
+      margin: 0;
+      line-height: 60px;
+      position: relative;
+      top: 10px;
+    }
+
+    #latest-image-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    #latest-image-section h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #latest-eye-icon {
+      width: 80px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    #latest-eye-icon:hover {
+      transform: scale(1.1);
+    }
+
+    input[type="file"] {
+      margin-top: 1rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.4rem;
+      font-size: 1rem;
+      border-radius: 25px;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+</head>
+<body>
+  <a id="back-button" href="index.html">&lt;</a>
+
+  <div id="header">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Left Eye Icon">
+    <h1>Echo Eyes</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Right Eye Icon">
+  </div>
+
+  <div id="latest-image-section">
+    <h2>Read Latest Image</h2>
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Eye Icon" id="latest-eye-icon" onclick="readLatestImage()">
+  </div>
+
+  <div>
+    <p>Upload an image or screenshot:</p>
+    <input type="file" id="imageInput" accept="image/*">
+    <br>
+    <button onclick="readImageText()">Read Text</button>
+  </div>
+
+  <script>
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-GB';
+      speechSynthesis.speak(utterance);
+    }
+
+    function readLatestImage() {
+      speak("Reading the latest image is not supported in the browser yet. This will work in the desktop version of Echo.");
+    }
+
+    function readImageText() {
+      const input = document.getElementById('imageInput');
+      if (!input.files.length) {
+        speak("Please upload an image first.");
+        return;
+      }
+
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        Tesseract.recognize(
+          reader.result,
+          'eng',
+          { logger: m => console.log(m) }
+        ).then(({ data: { text } }) => {
+          speak(text);
+        });
+      };
+
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>

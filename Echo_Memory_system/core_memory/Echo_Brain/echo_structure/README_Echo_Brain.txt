@@ -1,0 +1,1 @@
+This is the core memory system for Echo. It holds all structured data, logs, emotional tracking, scripts, and Echo's soul records.

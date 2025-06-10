@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Echo Eyes – Emotional Reflection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fdfdfd;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+      color: #333;
+    }
+
+    #header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+
+    #header img {
+      width: 50px;
+      height: auto;
+    }
+
+    #center-eye {
+      width: 70px;
+      margin-bottom: 2rem;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 30px;
+      border-radius: 50px / 25px;
+      border: none;
+      background-color: #ccc;
+      cursor: pointer;
+    }
+
+    .reflect-button {
+      padding: 1rem 2rem;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      background-color: #4a4a4a;
+      color: white;
+      cursor: pointer;
+    }
+
+    .reflect-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="back-button" onclick="window.location.href='index.html'">👁</button>
+
+  <div id="header">
+    <img src="icons/eye-left.png" alt="Left Eye">
+    <h1>Echo Eyes – Emotional Reflection</h1>
+    <img src="icons/eye-right.png" alt="Right Eye">
+  </div>
+
+  <img id="center-eye" src="icons/eye-main.png" alt="Echo Eye Icon">
+
+  <form method="GET" action="read_emotion_patterns.php">
+    <button type="submit" class="reflect-button">✨ Reflect</button>
+  </form>
+
+</body>
+</html>

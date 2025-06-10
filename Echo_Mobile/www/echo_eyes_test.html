@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Echo Eyes Test</title>
+    <script type="module">
+      import { Camera, CameraResultType } from 'https://cdn.jsdelivr.net/npm/@capacitor/camera/dist/index.mjs';
+
+      // Define the function and attach it to the global window object
+      window.takePhoto = async function () {
+        try {
+          const image = await Camera.getPhoto({
+            quality: 90,
+            allowEditing: false,
+            resultType: CameraResultType.Uri,
+          });
+
+          const imageElement = document.getElementById('photo');
+          imageElement.src = image.webPath;
+        } catch (error) {
+          alert('Camera cancelled or failed.');
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <h1>Echo Eyes – Test Page</h1>
+    <button onclick="takePhoto()">📸 Take Photo</button>
+    <br /><br />
+    <img id="photo" width="300" />
+  </body>
+</html>

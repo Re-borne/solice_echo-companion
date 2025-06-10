@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Echo - Memory Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f4f4f9;
+      color: #333;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    textarea {
+      width: 80%;
+      height: 100px;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #status {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 Echo Memory Interface</h1>
+  <p>Type something you want Echo to remember:</p>
+  <textarea id="memoryInput" placeholder="e.g., My favourite herb is basil."></textarea><br/>
+  <button onclick="saveMemory()">Save Memory</button>
+  <div id="status"></div>
+
+  <script>
+    function saveMemory() {
+      const input = document.getElementById('memoryInput').value.trim();
+      if (!input) {
+        alert("Please type something first.");
+        return;
+      }
+
+      fetch('save_memory.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'memory=' + encodeURIComponent(input)
+      })
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('status').innerText = "✅ Memory saved.";
+        document.getElementById('memoryInput').value = "";
+      })
+      .catch(error => {
+        document.getElementById('status').innerText = "❌ Failed to save memory.";
+        console.error(error);
+      });
+    }
+  </script>
+</body>
+</html>

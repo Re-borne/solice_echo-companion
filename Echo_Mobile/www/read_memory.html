@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Echo - Memory Recall</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      padding: 2rem;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    #memories {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      white-space: pre-wrap;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>📖 Echo's Memories</h1>
+  <div id="memories">Loading memories...</div>
+
+  <script>
+    fetch('read_memory.php')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('memories').innerText = data;
+      })
+      .catch(error => {
+        document.getElementById('memories').innerText = "⚠️ Failed to load memories.";
+        console.error(error);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Echo - Save Memory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 3rem 2rem;
+            max-width: 600px;
+            margin: auto;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            font-size: 16px;
+            padding: 1rem;
+            border: 1px solid #aaa;
+            border-radius: 8px;
+            resize: vertical;
+        }
+        select, button {
+            margin-top: 1rem;
+            padding: 0.8rem 1rem;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #444;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #222;
+        }
+        .speak-button {
+            margin-left: 1rem;
+            background-color: #2a7;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🧠 Echo - Save a Memory</h1>
+
+    <form method="POST" action="save_memory.php">
+        <textarea name="memory" id="memory" placeholder="Type or speak something you want Echo to remember..."></textarea>
+        <br>
+        <label for="tag">Tag this memory:</label>
+        <select name="tag" id="tag">
+            <option value="Thought">Thought</option>
+            <option value="Emotion">Emotion</option>
+            <option value="Reminder">Reminder</option>
+            <option value="Wisdom">Wisdom</option>
+        </select>
+        <br>
+        <button type="submit">💾 Save Memory</button>
+        <button type="button" class="speak-button" onclick="startListening()">🎤 Speak Memory</button>
+    </form>
+
+    <script>
+        function startListening() {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-GB';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById("memory").value = transcript;
+            };
+
+            recognition.onerror = function(event) {
+                alert("Speech recognition error: " + event.error);
+            };
+
+            recognition.start();
+        }
+    </script>
+
+</body>
+</html>

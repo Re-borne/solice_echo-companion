@@ -1,0 +1,6 @@
+Echo Agent log will appear here.
+[2025-06-06 18:29:07] File added: /Users/danielcolyer/Documents/Echo_Eyes_Safe/test.txt
+[2025-06-07 13:07:54] File added: /Users/danielcolyer/Desktop/master_echo_bulid/Echo_Memory_system/core_memory/testing.txt
+[2025-06-07 13:07:55] File added: /Users/danielcolyer/Desktop/master_echo_bulid/Echo_Memory_system/core_memory/testing.txt
+[2025-06-07 13:09:26] File added: /Users/danielcolyer/Documents/Echo_Eyes_Safe/test_file.txt
+[2025-06-08 08:11:13] File added: /Users/danielcolyer/Documents/Echo_Eyes_Safe/hello.txt

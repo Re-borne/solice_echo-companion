@@ -1,0 +1,22 @@
+✅ Echo_Add_New_Page_Checklist.txt
+
+This checklist is followed every time a new Echo Eyes page or background feature is added.
+
+1. Create the new HTML page using the Echo Eyes page template
+2. Add the corresponding backup folder under www/[page_name]_backups/
+3. Register the page and folder in:
+   - backup-echo-page.sh
+   - restore-echo-backup.sh
+4. Test the page or feature in the browser (localhost:3000)
+5. Save the current working version to the backup folder
+6. Confirm the page appears in the welcome carousel (if user-facing)
+7. ✅ (NEW) If this is a silent background feature like Echo Brain:
+   - Place all files inside www/Echo_Brain_User/
+   - Ensure scripts read/write quietly to logs (e.g., emotion_history.log)
+   - Never show background features in the user interface
+   - Confirm the base path www/Echo_Brain_User/ is used
+
+Final step:
+8. Update this checklist if new rules or steps are added.
+
+Last updated: 2025-05-29

@@ -1,0 +1,152 @@
+
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Echo - Set Alarm</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    #back-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 1.4rem;
+      padding: 0.5rem 1.4rem;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: bold;
+      border-radius: 50px / 25px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    #back-button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    #header img {
+      width: 40px;
+    }
+
+    #header h1 {
+      font-size: 2rem;
+      margin: 0;
+      line-height: 60px;
+      position: relative;
+      top: 10px;
+    }
+
+    #eye-icon {
+      width: 80px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      margin: 1.5rem 0;
+    }
+
+    #eye-icon:hover {
+      transform: scale(1.1);
+    }
+
+    #spokenText {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 0.7rem 1.6rem;
+      font-size: 1rem;
+      margin: 1rem 0.5rem;
+      border: 2px solid #333;
+      border-radius: 50px / 25px;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <a id="back-button" href="index.html">&lt;</a>
+
+  <div id="header">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Left Eye Icon">
+    <h1>Echo Eyes</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Right Eye Icon">
+  </div>
+
+  <a href="image_reader.html" title="Open Echo’s Eyes">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Eye Icon" id="eye-icon">
+  </a>
+
+  <!-- Alarm Feature -->
+  <h2>Set an Alarm</h2>
+  <p>Tap the button and say the time for your alarm.</p>
+  <button id="voiceButton">🎤 Speak Time</button>
+  <p id="spokenText"></p>
+  <button id="confirmButton">✅ Confirm Alarm</button>
+
+  <script>
+    let recognition;
+
+    if ('webkitSpeechRecognition' in window) {
+      recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-GB';
+
+      recognition.onresult = function (event) {
+        const spokenText = event.results[0][0].transcript;
+        document.getElementById('spokenText').textContent = `Alarm set for: ${spokenText}`;
+      };
+
+      recognition.onerror = function (event) {
+        document.getElementById('spokenText').textContent = `Error: ${event.error}`;
+      };
+    } else {
+      alert('Speech recognition not supported.');
+    }
+
+    window.onload = function () {
+      const voiceBtn = document.getElementById('voiceButton');
+      if (voiceBtn) {
+        voiceBtn.addEventListener('click', () => {
+          if (recognition) recognition.start();
+        });
+      }
+
+      const confirmBtn = document.getElementById('confirmButton');
+      if (confirmBtn) {
+        confirmBtn.addEventListener('click', () => {
+          const message = document.getElementById('spokenText').textContent;
+          if (message.startsWith('Alarm set for:')) {
+            alert('Alarm would now be scheduled (native support coming soon).');
+          } else {
+            alert('Please speak a time first.');
+          }
+        });
+      }
+    };
+  </script>
+</body>
+</html>

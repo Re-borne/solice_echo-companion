@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Echo - Save Memory</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      text-align: center;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 1rem;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 1rem;
+      font-size: 18px;
+      width: 100%;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #response {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Echo Memory Interface</h1>
+  <form id="memoryForm">
+    <textarea name="memory" placeholder="Type something Echo should remember..."></textarea>
+    <button type="submit">Save</button>
+  </form>
+  <div id="response"></div>
+
+  <script>
+    document.getElementById("memoryForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      fetch("save_memory.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("response").innerText = data;
+        this.reset();
+      });
+    });
+  </script>
+</body>
+</html>

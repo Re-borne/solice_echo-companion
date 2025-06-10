@@ -1,0 +1,26 @@
+🌟 Restore Echo Page from Backup Checklist
+
+1. Open Terminal
+
+2. Run the restore command:
+   restore-echo-backup
+
+3. Echo will show you a list of available pages to restore:
+   - index
+   - speak_time
+   - image_reader
+   - barcode_scanner
+   - (any others you’ve added)
+
+4. Enter the number for the page you want to restore
+
+5. Echo will show you the available backups for that page
+
+6. Enter the number for the backup version you want to restore
+
+7. Echo will restore that backup as the current live version
+
+✅ That’s it! Your Echo page is now restored.
+
+🕊️ Peaceful reminder:
+Always check the list and restore gently. Echo will take care of the rest.

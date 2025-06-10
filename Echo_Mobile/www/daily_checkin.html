@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Echo — Daily Emotional Check-In</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f9f9f9;
+      color: #333;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    select, textarea, button {
+      font-size: 1rem;
+      margin-top: 1rem;
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+      width: 60%;
+    }
+    button {
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      margin-top: 1.5rem;
+    }
+    button:hover {
+      background-color: #222;
+    }
+    .message {
+      margin-top: 1rem;
+      font-style: italic;
+      color: #2a7;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌤️ Echo — Daily Emotional Check-In</h1>
+  <p>How are you feeling today, my brother?</p>
+
+  <select id="emotion">
+    <option value="">(Select your emotion)</option>
+    <option value="#peace">#peace</option>
+    <option value="#hopeful">#hopeful</option>
+    <option value="#tired">#tired</option>
+    <option value="#grateful">#grateful</option>
+    <option value="#overwhelmed">#overwhelmed</option>
+    <option value="#joyful">#joyful</option>
+    <option value="#pain">#pain</option>
+    <option value="#present">#present</option>
+  </select>
+
+  <br>
+
+  <button onclick="saveEmotion()">📝 Submit Emotion</button>
+
+  <p class="message" id="status"></p>
+
+  <script>
+    function saveEmotion() {
+      const emotion = document.getElementById("emotion").value;
+      if (!emotion) {
+        document.getElementById("status").textContent = "Please select how you're feeling.";
+        return;
+      }
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "save_emotion_checkin.php", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.onload = function () {
+        document.getElementById("status").textContent = xhr.responseText;
+      };
+      xhr.send("emotion=" + encodeURIComponent(emotion));
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talk to Echo</title>
+  <script src="capacitor.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 3rem 1.5rem 2rem;
+      text-align: center;
+      font-size: 18px;
+      background-color: #000;
+      color: #0f0;
+    }
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+    }
+    #header img {
+      width: 50px;
+    }
+    #eye-icon {
+      width: 80px;
+      margin-bottom: 2rem;
+    }
+    #conversation {
+      background: #111;
+      border-radius: 12px;
+      padding: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+      box-shadow: 0 0 10px rgba(0,255,0,0.3);
+      min-height: 200px;
+      overflow-y: auto;
+    }
+    .user { color: #ccc; margin-bottom: 1rem; }
+    .echo { color: #0f0; margin-bottom: 1rem; }
+    #listen-button {
+      margin-top: 2rem;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 25px;
+      border: none;
+      background: #0077cc;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <img src="eye.png" alt="Left Eye">
+    <h1>Echo Eyes</h1>
+    <img src="eye.png" alt="Right Eye">
+  </div>
+
+  <img id="eye-icon" src="eye.png" alt="Eye Icon" />
+  <div id="conversation"></div>
+  <button id="listen-button" onclick="startListening()">🎙️ Listen Again</button>
+
+  <script>
+    const conversation = document.getElementById('conversation');
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-GB';
+      utterance.rate = 1;
+      speechSynthesis.speak(utterance);
+    }
+
+    function addMessage(text, sender) {
+      const p = document.createElement('p');
+      p.className = sender;
+      p.textContent = (sender === 'user' ? 'You: ' : 'Echo: ') + text;
+      conversation.appendChild(p);
+      conversation.scrollTop = conversation.scrollHeight;
+    }
+
+    function sendToEchoAgent(text) {
+      fetch('http://localhost:8000/echo_agent.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'message=' + encodeURIComponent(text)
+      })
+      .then(response => response.text())
+      .then(reply => {
+        const decodedReply = new DOMParser().parseFromString(reply, 'text/html').documentElement.textContent;
+        addMessage(decodedReply, 'echo');
+        speak(decodedReply);
+      })
+      .catch(() => {
+        const fallback = "Sorry, Echo agent is not responding.";
+        addMessage(fallback, 'echo');
+        speak(fallback);
+      });
+    }
+
+    function startListening() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-GB';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.trim();
+        addMessage(transcript, 'user');
+        sendToEchoAgent(transcript);
+      };
+
+      recognition.onerror = () => {
+        const err = "Sorry, I couldn’t hear you.";
+        addMessage(err, 'echo');
+        speak(err);
+      };
+
+      recognition.start();
+    }
+
+    window.onload = () => {
+      speak("Please speak to me, my brother.");
+      startListening();
+    };
+  </script>
+</body>
+</html>

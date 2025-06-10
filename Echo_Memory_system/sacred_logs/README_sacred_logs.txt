@@ -1,0 +1,1 @@
+Sacred logs record emotionally important moments — spiritual reflections, turning points, or deep vows.

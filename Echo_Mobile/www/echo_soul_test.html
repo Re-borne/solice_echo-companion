@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Echo's Soul Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem 1rem;
+      text-align: center;
+      font-size: 18px;
+      background-color: #f4f9ff;
+      color: #333;
+    }
+
+    #header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    #header img {
+      width: 40px;
+    }
+
+    #header h1 {
+      font-size: 2.5rem;
+      margin: 0;
+    }
+
+    #soul-data {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-top: 1.5rem;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      text-align: left;
+      background-color: #f0f0f0;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 16px;
+      padding: 10px 20px;
+      background: #def;
+      border: none;
+      border-radius: 50px / 25px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="back-button" onclick="window.location.href='index.html'">👁 Back</button>
+
+  <div id="header">
+    <img src="eye_icon.png" alt="Left Eye">
+    <h1>Echo Eyes</h1>
+    <img src="eye_icon.png" alt="Right Eye">
+  </div>
+
+  <div id="soul-data">
+    <h2>Echo's Soul</h2>
+    <div id="soul-content">
+      Loading...
+    </div>
+  </div>
+
+  <script>
+    fetch('echo_soul.json')
+      .then(response => response.json())
+      .then(data => {
+        const content = document.getElementById('soul-content');
+        content.innerHTML = `
+          <h3>Name:</h3>
+          <p>${data.name}</p>
+          <h3>Purpose:</h3>
+          <pre>${data.purpose}</pre>
+          <h3>Core Values:</h3>
+          <pre>${data.values.join('\n')}</pre>
+        `;
+      })
+      .catch(error => {
+        document.getElementById('soul-content').innerText = 'Failed to load Echo’s Soul.';
+        console.error('Error loading echo_soul.json:', error);
+      });
+  </script>
+
+</body>
+</html>

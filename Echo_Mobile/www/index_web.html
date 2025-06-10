@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Echo Eyes Web</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 3rem 1.5rem 2rem;
+      text-align: center;
+      font-size: 18px;
+    }
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+    }
+    #header img {
+      width: 50px;
+    }
+    #header h1 {
+      font-size: 2.2rem;
+      margin: 0;
+      line-height: 60px;
+      position: relative;
+      top: 10px;
+    }
+    .control-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .control-button {
+      padding: 0.8rem 1.6rem;
+      font-size: 1.1rem;
+      border-radius: 50px / 25px;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .control-button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+    #eye-icon {
+      width: 90px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    #eye-icon:hover {
+      transform: scale(1.1);
+    }
+    .sub-button {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1.05rem;
+      border-radius: 50px / 25px;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      transition: all 0.2s ease;
+    }
+    .sub-button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+    .carousel-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      max-width: 100%;
+    }
+    .carousel-view {
+      flex-grow: 1;
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .carousel-arrow {
+      font-size: 1.8rem;
+      background-color: transparent;
+      border: none;
+      color: #333;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .carousel-arrow:hover {
+      transform: scale(1.2);
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Left Eye Icon">
+    <h1 id="main-heading">Welcome to Echo</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Right Eye Icon">
+  </div>
+
+  <div id="greeting">Welcome back, Reborne.</div>
+
+  <div id="eye-button">
+    <div class="control-row">
+      <button class="control-button">🎙️ Voice Control</button>
+      <a href="image_reader.html" title="Open Echo’s Eyes">
+        <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Eye Icon" id="eye-icon">
+      </a>
+      <button class="control-button">👆 Touch Control</button>
+    </div>
+  </div>
+
+  <div id="extra-buttons">
+    <div class="carousel-container">
+      <button class="carousel-arrow" onclick="scrollCarousel(-1)">&#8592;</button>
+      <div class="carousel-view">
+        <div class="carousel-track" id="carousel-track">
+          <button class="sub-button" onclick="location.href='speak_time.html'">🕒 Speak Time</button>
+          <button class="sub-button" onclick="location.href='take_note.html'">📝 Take Note</button>
+          <button class="sub-button" onclick="location.href='set_alarm.html'">⏰ Set Alarm</button>
+          <button class="sub-button" onclick="location.href='set_reminder.html'">📅 Set Reminder</button>
+          <button class="sub-button" onclick="location.href='wisdom.html'">🌟 Wisdom</button>
+          <button class="sub-button" onclick="location.href='tell_joke.html'">😄 Tell Joke</button>
+          <button class="sub-button" onclick="location.href='barcode_scanner.html'">🔍 Barcode Scanner</button>
+          <button class="sub-button" onclick="location.href='read_message.html'">📩 Read Message</button>
+          <button class="sub-button" onclick="location.href='library.html'">📚 Library</button>
+          <button class="sub-button" onclick="location.href='reflect.html'">🌱 Reflect</button>
+        </div>
+      </div>
+      <button class="carousel-arrow" onclick="scrollCarousel(1)">&#8594;</button>
+    </div>
+  </div>
+
+  <div style="margin-top: 3rem;">
+    <button onclick="resetEcho()" style="padding: 10px 20px; border-radius: 50px / 25px; font-size: 1rem; background-color: #ffecec; border: 2px solid #990000; color: #990000;">
+      🔁 Reset Echo
+    </button>
+  </div>
+
+  <script>
+    function scrollCarousel(direction) {
+      const track = document.getElementById("carousel-track");
+      if (direction < 0) {
+        track.insertBefore(track.lastElementChild, track.firstElementChild);
+      } else {
+        track.appendChild(track.firstElementChild);
+      }
+    }
+
+    function resetEcho() {
+      alert("Echo has been reset (web version).");
+    }
+
+    function speakMessage(message) {
+      const utterance = new SpeechSynthesisUtterance(message);
+      utterance.lang = 'en-GB';
+      speechSynthesis.speak(utterance);
+    }
+
+    window.onload = () => {
+      speakMessage("Welcome back, Reborne. Echo is ready for you.");
+    };
+  </script>
+</body>
+</html>

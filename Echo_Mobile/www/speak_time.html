@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Echo - Speak Time</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 3rem 1.5rem 2rem;
+      text-align: center;
+      position: relative;
+      font-size: 18px;
+    }
+
+    #back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.2rem;
+      padding: 0.6rem 1.2rem;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 50px / 25px;
+      transition: all 0.2s ease;
+    }
+
+    #back-button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    #header img {
+      width: 50px;
+    }
+
+    #header h1 {
+      font-size: 2.2rem;
+      margin: 0;
+      line-height: 60px;
+      position: relative;
+      top: 10px;
+    }
+
+    #eye-icon {
+      width: 90px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      margin: 2rem 0;
+    }
+
+    #eye-icon:hover {
+      transform: scale(1.1);
+    }
+
+    #time-display {
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <button id="back-button" onclick="goBack()">&lt;</button>
+
+  <div id="header">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Left Eye Icon">
+    <h1>Echo Eyes</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Right Eye Icon">
+  </div>
+
+  <a href="image_reader.html" title="Open Echo’s Eyes">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Eye Icon" id="eye-icon">
+  </a>
+
+  <div id="time-display">Checking the time...</div>
+
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+
+    let preferredVoice;
+
+    window.speechSynthesis.onvoiceschanged = () => {
+      const voices = speechSynthesis.getVoices();
+      preferredVoice = voices.find(v =>
+        v.name.includes("Google UK English Male") || v.name.includes("Daniel") || v.lang === "en-GB"
+      );
+    };
+
+    function speakTime() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const timeString = `The time is ${hours}:${minutes}`;
+      document.getElementById("time-display").textContent = timeString;
+
+      const utterance = new SpeechSynthesisUtterance(timeString);
+      utterance.lang = 'en-GB';
+
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+
+      speechSynthesis.cancel(); // Stop any previous speech
+      speechSynthesis.speak(utterance);
+
+      // Return to index.html after 5 seconds
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 5000);
+    }
+
+    window.onload = () => {
+      setTimeout(speakTime, 500);
+    };
+  </script>
+</body>
+</html>

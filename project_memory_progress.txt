@@ -1,0 +1,12 @@
+✅ 1st June 2025 — Added memory search to `read_memory.php`
+Echo now searches both memory files (`echo_memories.txt` and `echo_memories_archive.txt`)
+All matches are displayed under a “🔎 Search Results” heading. Confirmed working and logged to Echo_Soul.txt.
+
+✅ 1st June 2025 — Added voice input to `save_memory.html`
+Echo now listens to spoken memories using browser-based speech recognition.
+The input is saved exactly like typed memories. Confirmed working and logged to Echo_Soul.txt.
+
+✅ 1st June 2025 — Added voice output to `read_memory.php`
+Echo now speaks short-term memory aloud using browser voice.
+Tested and confirmed working. Logged to Echo_Soul.txt.
+

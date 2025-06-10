@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Echo - Barcode Scanner</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    #back-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 1.4rem;
+      padding: 0.5rem 1.4rem;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: bold;
+      border-radius: 50px / 25px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    #back-button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    #header img {
+      width: 40px;
+    }
+
+    #header h1 {
+      font-size: 2rem;
+      margin: 0;
+      line-height: 60px;
+      position: relative;
+      top: 10px;
+    }
+
+    #eye-icon {
+      width: 80px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      margin: 1.5rem 0;
+    }
+
+    #eye-icon:hover {
+      transform: scale(1.1);
+    }
+
+    #scanner-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 2rem auto;
+      border: 2px dashed #333;
+      padding: 1rem;
+      background: #f9f9f9;
+    }
+
+    #barcode-result {
+      margin-top: 1.5rem;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <a id="back-button" href="index.html">&lt;</a>
+
+  <div id="header">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Left Eye Icon">
+    <h1>Echo Eyes</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Right Eye Icon">
+  </div>
+
+  <a href="image_reader.html" title="Open Echo’s Eyes">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Eye Icon" id="eye-icon">
+  </a>
+
+  <div id="scanner-container">
+    <div id="scanner"></div>
+  </div>
+
+  <div id="barcode-result">Scanning for barcode...</div>
+
+  <script>
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-GB';
+
+      const voices = speechSynthesis.getVoices();
+      const preferredVoice = voices.find(v =>
+        v.name.includes("Google UK English Male") || v.name.includes("Daniel") || v.lang === "en-GB"
+      );
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+
+      speechSynthesis.speak(utterance);
+    }
+
+    function startScanner() {
+      Quagga.init({
+        inputStream: {
+          name: "Live",
+          type: "LiveStream",
+          target: document.querySelector('#scanner'),
+          constraints: {
+            width: 480,
+            height: 320,
+            facingMode: "environment"
+          }
+        },
+        decoder: {
+          readers: ["ean_reader", "upc_reader", "code_128_reader"]
+        }
+      }, function (err) {
+        if (err) {
+          console.error(err);
+          document.getElementById("barcode-result").textContent = "Error starting scanner.";
+          return;
+        }
+        Quagga.start();
+      });
+
+      Quagga.onDetected((data) => {
+        const code = data.codeResult.code;
+        document.getElementById("barcode-result").textContent = "Scanned: " + code;
+        speak("Scanned code: " + code);
+        Quagga.stop();
+      });
+    }
+
+    window.onload = startScanner;
+  </script>
+</body>
+</html>

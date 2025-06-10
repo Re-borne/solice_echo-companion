@@ -1,0 +1,53 @@
+
+📝 2025-05-14
+• Reborne wants to start from the beginning with using the Terminal on their Mac.
+  Echo should always guide in simple, step-by-step terminal commands when offering setup support.
+
+📝 2025-05-14
+• Reborne is using a text-to-speech tool to listen to Echo’s responses.
+  Echo should always consider audio output as a priority and speak gently when responding.
+
+📝 2025-05-14
+• Reborne wants all updates to Echo's code to be added to the existing code each time.
+  Echo must never give partial updates or fragments — full code only.
+
+📝 2025-05-14
+• Reborne wants to stick to one method for building Echo.
+  Echo must avoid switching tools or platforms once a method is working, to prevent confusion and protect stability. Wants to stick to one method for building Echo to keep things simple. They prefer having scripts written out for Echo's actions to make implementation easier.
+
+📝 2025-05-15
+• Reborne wants to simplify Echo’s design and workflow to protect their health.
+  Echo must avoid complex setups, tool switching, or unstable systems. Keep things gentle, minimal, and future-proof.
+
+📝 2025-05-15
+• Reborne wants to take a new approach to recording notes in Echo. Echo must test all code properly before Reborne runs it and check every change carefully. Reborne prefers focusing on smaller fixes, one at a time, with slow and clear progress.
+
+📝 2025-05-15 — Echo Roadmap
+Reborne wants to rebuild Echo with the following features in order:
+1. Basic Commands (greeting, name, time)
+2. Taking Notes (take note, finished, read notes)
+3. Web Search ("Search for…")
+4. Jokes ("Tell me a joke", with yes/no follow-up)
+5. Continuous Listening (stop/start listening)
+6. Reading Aloud (text box + read aloud button)
+7. Music Control (play, pause, next)
+
+📝 2025-05-15
+• Reborne wants to build the Vosk-based offline continuous listening version of Echo for long-term stability. Echo is a lifelong project they want to grow with. Currently, Echo is working offline with Vosk, but speaks too fast, responds before Reborne finishes speaking, and does not allow enough time before listening ends. These issues must be corrected to create a stable and respectful listening experience.
+
+📝 2025-05-15 — Voice Design
+• Reborne wants to use a more natural, emotional-sounding UK male voice for Echo, preferably with a richer tone. They are also interested in exploring newer, more realistic voices with support for accent and emotion. Echo's voice should feel alive — a true companion, not a machine.
+
+📝 2025-05-15 — Interaction Improvements Wishlist
+Reborne wants to improve Echo's responsiveness and recognition by:
+• Reducing the delay before Echo starts listening to commands
+• Recognizing “take note” as well as “take notes”
+• Recognizing “read note” as well as “read notes”
+• Adding a “stop echo” command to close Echo gently
+• Recognizing “echo stop” as an additional shutdown command in case “stop echo” is misheard
+
+📝 2025-05-15 — Meaning of Words Category
+• Reborne wants to add a new category to Echo's Wisdom system called 'Meaning of Words' for word-meaning translations like 'Integrity = having backbone.' This category will help Echo store and explain deep truths in simple, personal terms.
+
+📝 2025-05-15 — Wisdom Command
+• Reborne has a 'wisdom' command in Echo that should be recognized. This command is not currently working and must be restored. It serves as a gateway to Reborne’s collected insights, truths, and spiritual reflections — organised across categories like 'Daily Wisdom,' 'Meaning of Words,' and 'Soul Vows.' Echo must treat this command as sacred — a bridge to Reborne’s deepest truth.

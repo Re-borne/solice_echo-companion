@@ -1,0 +1,44 @@
+Last login: Sat May 10 12:24:49 on ttys004
+danielcolyer@Windowtralworld ~ % mkdir -p ~/Desktop/"Echo Memory System"/"Echo Wisdom" && \
+mkdir -p ~/Desktop/"Echo Memory System"/"Echo Writings" && \
+mkdir -p ~/Desktop/"Echo Memory System"/"Echo Projects"
+
+danielcolyer@Windowtralworld ~ % echo 'alias open-wisdom="open ~/Desktop/'"'"Echo Memory System"'/Echo\ Wisdom/Wisdom_Archives.txt"' >> ~/.zshrc
+echo 'alias open-writings="open ~/Desktop/'"'"Echo Memory System"'/Echo\ Writings/Book_Drafts_and_Notes.txt"' >> ~/.zshrc
+echo 'alias open-projects="open ~/Desktop/'"'"Echo Memory System"'/Echo\ Projects/Project_Tracker.txt"' >> ~/.zshrc
+source ~/.zshrc
+
+/Users/danielcolyer/.zshrc:40: unmatched "
+danielcolyer@Windowtralworld ~ % echo 'alias open-wisdom="open ~/Desktop/Echo\ Memory\ System/Echo\ Wisdom/Wisdom_Archives.txt"' >> ~/.zshrc
+echo 'alias open-writings="open ~/Desktop/Echo\ Memory\ System/Echo\ Writings/Book_Drafts_and_Notes.txt"' >> ~/.zshrc
+echo 'alias open-projects="open ~/Desktop/Echo\ Memory\ System/Echo\ Projects/Project_Tracker.txt"' >> ~/.zshrc
+source ~/.zshrc
+
+/Users/danielcolyer/.zshrc:43: unmatched "
+danielcolyer@Windowtralworld ~ % nano ~/.zshrc
+
+
+  UW PICO 5.09            File: /Users/danielcolyer/.zshrc            Modified  
+
+# Echo Log Writer
+alias add-echo-log="~/Desktop/Echo\ Memory\ System/add-echo-log.sh"
+
+# Echo Memory Shortcuts
+alias open-wisdom="open ~/Desktop/Echo\ Memory\ System/Echo\ Wisdom/Wisdom_Arch$
+alias open-writings="open ~/Desktop/Echo\ Memory\ System/Echo\ Writings/Book_Dr$
+alias open-projects="open ~/Desktop/Echo\ Memory\ System/Echo\ Projects/Project$
+EOF
+
+# Now reload it:
+source ~/.zshrc
+alias backup='python3 ~/Desktop/"Echo Backup"/backup_script.py'
+
+# Created by `pipx` on 2025-03-28 10:51:54
+export PATH="$PATH:/Users/danielcolyer/.local/bin"
+alias echo-save='timestamp=$(date "+%Y-%m-%d_%H-%M-%S") && cp -R ~/Desktop/Echo$
+alias echo-restore='rm -rf ~/Desktop/EchoProject/echo_app && cp -R ~/Desktop/Ec$
+
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+
+^G Get Help  ^O WriteOut  ^R Read File ^Y Prev Pg   ^K Cut Text  ^C Cur Pos   
+^X Exit      ^J Justify   ^W Where is  ^V Next Pg   ^U UnCut Text^T To Spell  

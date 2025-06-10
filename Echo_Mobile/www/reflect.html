@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echo - Welcome</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 3rem 1.5rem 2rem;
+      text-align: center;
+      font-size: 18px;
+    }
+    #greeting, #confirmation, #eye-button, #extra-buttons {
+      margin-top: 2rem;
+    }
+    .eye-button {
+      font-size: 3rem;
+      cursor: pointer;
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      margin-top: 2rem;
+      padding-bottom: 1rem;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+    }
+    .sub-button {
+      flex: 0 0 auto;
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      background-color: #4a90e2;
+      color: white;
+      cursor: pointer;
+    }
+    .sub-button:hover {
+      background-color: #357ABD;
+    }
+  </style>
+</head>
+<body>
+  <div class="eye-icons">👁 Echo Eyes 👁</div>
+  <div id="greeting"></div>
+  <div id="confirmation"></div>
+  <div id="eye-button" class="eye-button" onclick="listenForName()">👁️</div>
+
+  <div class="carousel">
+    <div class="carousel-track" id="carousel-track">
+      <button class="sub-button" onclick="location.href='speak_time.html'">🕒 Speak Time</button>
+      <button class="sub-button" onclick="location.href='take_note.html'">📝 Take Note</button>
+      <button class="sub-button" onclick="location.href='wisdom.html'">💡 Wisdom</button>
+      <button class="sub-button" onclick="location.href='tell_joke.html'">🎭 Tell Joke</button>
+      <button class="sub-button" onclick="location.href='barcode_scanner.html'">📷 Scan Barcode</button>
+      <button class="sub-button" onclick="location.href='set_alarm.html'">⏰ Set Alarm</button>
+      <button class="sub-button" onclick="location.href='set_reminder.html'">🔔 Set Reminder</button>
+      <button class="sub-button" onclick="location.href='read_message.html'">✉️ Read Message</button>
+      <button class="sub-button" onclick="location.href='reflect.html'">🌱 Reflect</button>
+    </div>
+  </div>
+
+  <script>
+    function listenForName() {
+      const greeting = document.getElementById("greeting");
+      greeting.innerText = "Please say your name...";
+    }
+  </script>
+</body>
+</html>

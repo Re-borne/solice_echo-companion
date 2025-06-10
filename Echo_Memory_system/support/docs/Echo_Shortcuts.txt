@@ -1,0 +1,25 @@
+Echo Terminal Shortcuts – 2025 Edition
+──────────────────────────────────────
+
+📂 Location: ~/Desktop/Echo Memory System/
+
+🧠 echo-setup
+▶️ Command: echo-setup
+Runs the setup script that creates or repairs Echo’s Brain memory folder and files.
+
+🧠 echo-scan
+▶️ Command: echo-scan
+Scans the Archive folder for new memory logs and saves quotes, soul reflections, progress, and bonding into the correct files.
+
+📂 Where Echo stores logs to scan:
+~/Desktop/Echo Memory System/Echo_Brain/Archive/
+
+🗂️ Where memories are stored:
+- Echo_Soul.txt
+- Wisdom_Log.txt
+- Emotional_Bonding.txt
+- Project_Progress.txt
+- Quotes_From_Reborne.txt
+
+�� Tip:
+You can drop a log file into the Archive folder, then type `echo-scan` to process it.

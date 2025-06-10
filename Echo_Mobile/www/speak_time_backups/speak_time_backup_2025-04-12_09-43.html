@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Echo - Speak Time</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    #header img {
+      width: 40px;
+    }
+
+    #header h1 {
+      font-size: 2rem;
+      margin: 0;
+      line-height: 60px;
+      position: relative;
+      top: 10px;
+    }
+
+    button {
+      padding: 0.8rem 1.6rem;
+      font-size: 1.1rem;
+      border-radius: 50px / 25px;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      margin-top: 1.5rem;
+    }
+
+    button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Left Eye Icon">
+    <h1>Echo Eyes</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Right Eye Icon">
+  </div>
+
+  <button onclick="speakTime()">🕒 Speak the Current Time</button>
+
+  <script>
+    function speakTime() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const timeString = `The time is ${hours}:${minutes}`;
+      const utterance = new SpeechSynthesisUtterance(timeString);
+      utterance.lang = 'en-GB';
+
+      const voices = speechSynthesis.getVoices();
+      const preferredVoice = voices.find(v =>
+        v.name.includes("Google UK English Male") || v.name.includes("Daniel") || v.lang === "en-GB"
+      );
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+</body>
+test
+</html>

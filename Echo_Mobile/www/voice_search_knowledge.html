@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Echo – Voice Knowledge Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+      background-color: #fce4ec;
+      color: #333;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      border: none;
+      background-color: #ef9a9a;
+      color: white;
+      cursor: pointer;
+    }
+    #status {
+      margin-top: 1.2rem;
+      font-style: italic;
+    }
+    #results {
+      margin-top: 2rem;
+      white-space: pre-wrap;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎙️ Echo Voice Search</h1>
+  <p>Tap the button and say what you want to search for:</p>
+  <button onclick="startListening()">🎤 Speak Now</button>
+  <p id="status"></p>
+  <div id="results"></div>
+
+  <script>
+    function startListening() {
+      const status = document.getElementById('status');
+      const results = document.getElementById('results');
+      results.innerHTML = '';
+      status.textContent = 'Listening...';
+
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-GB';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event) => {
+        const spoken = event.results[0][0].transcript;
+        status.textContent = `You said: "${spoken}"`;
+        fetchResults(spoken);
+      };
+
+      recognition.onerror = (event) => {
+        status.textContent = 'Error: ' + event.error;
+      };
+
+      recognition.start();
+    }
+
+    function fetchResults(query) {
+      fetch(`search_knowledge_api.php?query=${encodeURIComponent(query)}`)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('results').textContent = data || 'No results found.';
+        });
+    }
+  </script>
+</body>
+</html>

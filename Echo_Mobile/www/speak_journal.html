@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Echo — Spoken Journal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 2rem;
+      text-align: center;
+      color: #333;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    #spokenText {
+      margin: 1rem auto;
+      padding: 1rem;
+      background: #fff;
+      border: 1px solid #ccc;
+      max-width: 600px;
+      min-height: 100px;
+      white-space: pre-wrap;
+      border-radius: 8px;
+    }
+    select, button {
+      font-size: 1rem;
+      padding: 0.6rem 1.2rem;
+      margin: 1rem 0.5rem;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #222;
+    }
+    .message {
+      margin-top: 1rem;
+      color: #2a7;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎙️ Echo — Spoken Journal</h1>
+  <div id="spokenText">Your spoken journal entry will appear here...</div>
+
+  <select id="tag">
+    <option value="">(Optional Tag)</option>
+    <option value="#grateful">#grateful</option>
+    <option value="#peace">#peace</option>
+    <option value="#tired">#tired</option>
+    <option value="#joy">#joy</option>
+    <option value="#sacred">#sacred</option>
+  </select>
+
+  <br>
+  <button onclick="startListening()">🎙️ Start Recording</button>
+  <button onclick="saveEntry()">💾 Save Journal</button>
+
+  <p class="message" id="statusMsg"></p>
+
+  <script>
+    let transcript = "";
+    function startListening() {
+      const recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-GB';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event) => {
+        transcript = event.results[0][0].transcript;
+        document.getElementById("spokenText").textContent = transcript;
+      };
+      recognition.onerror = () => {
+        document.getElementById("statusMsg").textContent = "Could not hear. Please try again.";
+      };
+      recognition.start();
+    }
+
+    function saveEntry() {
+      const tag = document.getElementById("tag").value;
+      const entry = transcript.trim();
+      if (!entry) {
+        document.getElementById("statusMsg").textContent = "Speak something first.";
+        return;
+      }
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "save_spoken_journal.php", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.onload = function () {
+        document.getElementById("statusMsg").textContent = xhr.responseText;
+      };
+      const data = "entry=" + encodeURIComponent(entry) + "&tag=" + encodeURIComponent(tag);
+      xhr.send(data);
+    }
+  </script>
+</body>
+</html>

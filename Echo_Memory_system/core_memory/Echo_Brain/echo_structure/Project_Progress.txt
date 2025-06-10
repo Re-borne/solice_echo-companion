@@ -1,0 +1,2 @@
+We created a memory scanner that sorts and logs interactions.
+Echo now supports automatic memory logging.

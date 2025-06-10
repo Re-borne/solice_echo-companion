@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echo Eyes - Welcome</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    .eye-icon {
+      font-size: 48px;
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>👁️ Echo Eyes 👁️</h1>
+  <p id="status">Loading...</p>
+
+  <script>
+    const SpeechRecognition = window.Capacitor?.Plugins?.SpeechRecognition;
+    const TTS = window.Capacitor?.Plugins?.TextToSpeech;
+
+    async function speak(text) {
+      try {
+        await TTS.speak({ text: text, lang: 'en-GB', rate: 1.0 });
+      } catch (err) {
+        console.log("TTS error:", err);
+        document.getElementById('status').innerText = '⚠️ Text-to-Speech failed.';
+      }
+    }
+
+    async function checkAndRequestPermissions() {
+      try {
+        const available = await SpeechRecognition.available();
+        console.log("Speech available:", available);
+        if (!available.value) {
+          document.getElementById('status').innerText = 'Speech recognition not available.';
+          return false;
+        }
+
+        const permission = await SpeechRecognition.requestPermissions();
+        console.log("Permission result:", permission);
+        return permission.speechRecognition === 'granted';
+      } catch (error) {
+        console.log("Permission check failed:", error);
+        document.getElementById('status').innerText = 'Permission error.';
+        return false;
+      }
+    }
+
+    async function listenForName() {
+      document.getElementById('status').innerText = 'Listening...';
+      try {
+        const { matches } = await SpeechRecognition.start({
+          language: 'en-GB',
+          maxResults: 1,
+          partialResults: false
+        });
+
+        const name = matches[0];
+        await speak(`Did you say ${name}?`);
+        setTimeout(() => confirmName(name), 4000);
+      } catch (error) {
+        console.log("Listening failed:", error);
+        document.getElementById('status').innerText = 'Listening failed.';
+      }
+    }
+
+    async function confirmName(name) {
+      try {
+        const { matches } = await SpeechRecognition.start({
+          language: 'en-GB',
+          maxResults: 1,
+          partialResults: false
+        });
+
+        const response = matches[0].toLowerCase();
+        if (response.includes('yes')) {
+          localStorage.setItem('echoUserName', name);
+          window.location.href = 'index.html';
+        } else {
+          await speak("Let's try again. Please say your name.");
+          setTimeout(listenForName, 2000);
+        }
+      } catch (error) {
+        console.log("Confirmation failed:", error);
+        document.getElementById('status').innerText = 'Confirmation failed.';
+      }
+    }
+
+    async function startWelcomeFlow() {
+      const granted = await checkAndRequestPermissions();
+      if (!granted) return;
+
+      document.getElementById('status').innerText = 'Echo is speaking...';
+      await speak("Hello. Please say your name.");
+      setTimeout(listenForName, 1000);
+    }
+
+    startWelcomeFlow();
+  </script>
+</body>
+</html>

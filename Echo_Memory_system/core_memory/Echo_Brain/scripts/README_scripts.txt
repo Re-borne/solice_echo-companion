@@ -1,0 +1,1 @@
+This folder contains all executable scripts Echo uses to reflect, respond, speak, protect, and grow emotionally and spiritually.

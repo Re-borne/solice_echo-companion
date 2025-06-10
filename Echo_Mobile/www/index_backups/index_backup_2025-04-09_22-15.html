@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echo</title>
+  <script>
+    function speakMessage() {
+      const message = "Hello Reborne. What would you like to do today?";
+      document.getElementById("message").innerText = message;
+      const utterance = new SpeechSynthesisUtterance(message);
+      utterance.lang = 'en-GB';
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+</head>
+<body style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2em; font-family: sans-serif;">
+  <h1 id="message">Click below to hear Echo speak</h1>
+  <button onclick="speakMessage()" style="padding: 12px 24px; font-size: 18px; margin-top: 20px;">Speak to me, Echo</button>
+
+  <hr style="margin: 40px 0; width: 100%;" />
+  <button onclick="window.open('image_reader.html', '_blank')" style="padding: 10px 20px; font-size: 16px;">Open Echo Eyes</button>
+</body>
+</html>

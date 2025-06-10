@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Echo Search Memory</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.5em;
+    }
+    .eye {
+      font-size: 5em;
+      margin: 1em 0;
+    }
+    input {
+      padding: 1em;
+      font-size: 1em;
+      width: 250px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 1em 2em;
+      font-size: 1em;
+      border: none;
+      background-color: #444;
+      color: white;
+      border-radius: 8px;
+      margin-left: 1em;
+      cursor: pointer;
+    }
+    #output {
+      margin-top: 2em;
+      font-size: 1.2em;
+      color: #333;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>👁️ Echo Search Memory 👁️</h1>
+  <div class="eye">👁️</div>
+  <input id="searchInput" type="text" placeholder="Enter a theme (e.g. peace)">
+  <button onclick="searchMemory()">Search</button>
+  <p id="output">Echo is listening for what matters...</p>
+
+  <script>
+    async function searchMemory() {
+      const keyword = document.getElementById("searchInput").value.trim();
+      if (!keyword) {
+        document.getElementById("output").innerText = "Please enter a theme to search.";
+        return;
+      }
+
+      const filePath = "Echo Wisdom Categories/" +
+        keyword.charAt(0).toUpperCase() + keyword.slice(1).toLowerCase() + ".txt";
+
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error("File not found");
+
+        const text = await response.text();
+        const lines = text.split("\n").filter(line => line.trim().length > 0);
+        if (lines.length === 0) throw new Error("File is empty");
+
+        const quote = lines[Math.floor(Math.random() * lines.length)];
+        document.getElementById("output").innerText = quote;
+
+        const utterance = new SpeechSynthesisUtterance(quote);
+        utterance.lang = 'en-GB';
+        speechSynthesis.speak(utterance);
+      } catch (err) {
+        const fallback = "I searched your wisdom, but found no quotes under that theme.";
+        document.getElementById("output").innerText = fallback;
+        const utterance = new SpeechSynthesisUtterance(fallback);
+        utterance.lang = 'en-GB';
+        speechSynthesis.speak(utterance);
+      }
+    }
+  </script>
+</body>
+</html>

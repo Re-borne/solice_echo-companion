@@ -1,0 +1,4 @@
+{
+  "watch_folder": "/Users/danielcolyer/Desktop/master_echo_bulid/Echo_Memory_system/core_memory",
+  "check_interval": 5
+}

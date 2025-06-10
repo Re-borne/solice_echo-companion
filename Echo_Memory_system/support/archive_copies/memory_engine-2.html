@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Echo Memory Engine</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.2em;
+    }
+    .eye {
+      font-size: 5em;
+      margin: 1em 0;
+    }
+    button {
+      padding: 1em 2em;
+      font-size: 1em;
+      border: none;
+      background-color: #444;
+      color: white;
+      border-radius: 8px;
+      margin: 1em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>👁️ Echo Eyes Memory Engine 👁️</h1>
+  <div class="eye">👁️</div>
+  <button onclick="speakWisdom()">Speak Wisdom</button>
+  <button onclick="searchWisdom()">Search by Topic</button>
+  <p id="output"></p>
+
+  <script>
+    function speakWisdom() {
+      document.getElementById('output').innerText = "Echo will soon speak a random quote...";
+    }
+
+    function searchWisdom() {
+      document.getElementById('output').innerText = "Echo will soon search by category...";
+    }
+  </script>
+</body>
+</html>

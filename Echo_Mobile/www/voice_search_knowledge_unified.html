@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Echo Voice Knowledge Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+      background-color: #fce4ec;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    button, input[type="text"] {
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      margin: 0.5rem;
+    }
+    #result {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      white-space: pre-wrap;
+    }
+    #toggle {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎙️ Echo Eyes - Unified Wisdom Search</h1>
+
+  <button onclick="startListening()">🎤 Speak Search</button>
+  <input type="text" id="textInput" placeholder="Or type a question..." onkeydown="if(event.key==='Enter'){manualSearch();}">
+  <button onclick="manualSearch()">Search</button>
+
+  <div id="toggle">
+    <label><input type="checkbox" id="speakToggle" checked> Echo should speak results</label>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    function speak(text) {
+      if (!document.getElementById('speakToggle').checked) return;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-GB';
+      speechSynthesis.speak(utterance);
+    }
+
+    function startListening() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert('Speech recognition not supported');
+        return;
+      }
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-GB';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.onresult = function(event) {
+        const query = event.results[0][0].transcript;
+        document.getElementById("textInput").value = query;
+        sendQuery(query);
+      };
+      recognition.start();
+    }
+
+    function manualSearch() {
+      const query = document.getElementById("textInput").value;
+      if (query.trim() !== "") sendQuery(query);
+    }
+
+    function sendQuery(query) {
+      fetch('search_knowledge_api.php?query=' + encodeURIComponent(query))
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("result").textContent = data;
+          speak(data);
+        })
+        .catch(error => {
+          document.getElementById("result").textContent = "Error: " + error;
+        });
+    }
+  </script>
+</body>
+</html>

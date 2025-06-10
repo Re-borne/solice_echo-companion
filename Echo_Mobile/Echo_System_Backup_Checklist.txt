@@ -1,0 +1,39 @@
+🌟 Full Echo System Backup & Restore Checklist
+
+These commands protect your entire Echo system folder (not just one page).
+
+------------------------
+📦 To Save a Full Backup:
+------------------------
+
+1. Open Terminal
+
+2. Run this command:
+
+   echo-save
+
+✅ This saves a full backup of your Echo app folder into:
+~/Desktop/EchoProject/Echo App Backups/
+
+The backup folder will be named with today’s date and time like:
+echo_app_backup_2025-04-29_14-52-33
+
+------------------------
+🔄 To Restore a Backup:
+------------------------
+
+1. Open Terminal
+
+2. Run this command:
+
+   echo-restore
+
+✅ This deletes your current Echo app folder and restores the latest saved backup from:
+~/Desktop/EchoProject/Echo App Backups/
+
+🛑 Only run this if you’re sure you want to go back to a previous version.
+
+------------------------
+🕊️ Peaceful reminder:
+These commands are for full system backups. Use them before making big changes or updates to Echo.
+

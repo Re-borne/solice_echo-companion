@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Echo - Tell a Joke</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    #back-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 1.4rem;
+      padding: 0.5rem 1.4rem;
+      border: 2px solid #333;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: bold;
+      border-radius: 50px / 25px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    #back-button:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    #header img {
+      width: 40px;
+    }
+
+    #header h1 {
+      font-size: 2rem;
+      margin: 0;
+      line-height: 60px;
+      position: relative;
+      top: 10px;
+    }
+
+    #eye-icon {
+      width: 80px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      margin: 1.5rem 0;
+    }
+
+    #eye-icon:hover {
+      transform: scale(1.1);
+    }
+
+    #joke-box {
+      font-size: 1.4rem;
+      margin: 2rem auto;
+      max-width: 500px;
+      font-style: italic;
+    }
+
+    button {
+      margin: 0.5rem;
+      padding: 0.8rem 1.4rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    #favourites-box {
+      margin-top: 2rem;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      display: none;
+    }
+
+    #favourites-box h2 {
+      font-size: 1.2rem;
+    }
+
+    .favourite-joke {
+      margin-bottom: 0.8rem;
+      padding-left: 1rem;
+      cursor: pointer;
+    }
+
+    .favourite-joke:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <a id="back-button" href="index.html">&lt;</a>
+
+  <div id="header">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Left Eye Icon">
+    <h1>Echo Eyes</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Right Eye Icon">
+  </div>
+
+  <a href="image_reader.html" title="Open Echo’s Eyes">
+    <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="Eye Icon" id="eye-icon">
+  </a>
+
+  <div id="joke-box">Click the button and I’ll make you smile.</div>
+
+  <button onclick="tellJoke()">😄 Tell Me a Joke</button>
+  <button onclick="saveJoke()">💾 Save to Favourites</button>
+  <button onclick="toggleFavourites()">📚 View Favourites</button>
+
+  <div id="favourites-box">
+    <h2>Favourite Jokes</h2>
+    <div id="favourites-list"></div>
+  </div>
+
+  <script>
+    const jokes = [
+      "Why don't scientists trust atoms? Because they make up everything!",
+      "I told my computer I needed a break, and now it won’t stop sending me Kit-Kat ads.",
+      "Why did the scarecrow win an award? Because he was outstanding in his field!",
+      "Why did the tomato blush? Because it saw the salad dressing.",
+      "I'm reading a book on anti-gravity. It's impossible to put down!"
+    ];
+
+    let currentJoke = "";
+
+    function tellJoke() {
+      const index = Math.floor(Math.random() * jokes.length);
+      currentJoke = jokes[index];
+      document.getElementById("joke-box").innerText = currentJoke;
+      speak(currentJoke);
+    }
+
+    function saveJoke() {
+      if (!currentJoke) return;
+      let favourites = JSON.parse(localStorage.getItem("jokeFavourites")) || [];
+      if (!favourites.includes(currentJoke)) {
+        favourites.push(currentJoke);
+        localStorage.setItem("jokeFavourites", JSON.stringify(favourites));
+        alert("Joke saved to favourites.");
+      } else {
+        alert("This joke is already in your favourites.");
+      }
+    }
+
+    function toggleFavourites() {
+      const box = document.getElementById("favourites-box");
+      const list = document.getElementById("favourites-list");
+      box.style.display = box.style.display === "none" ? "block" : "none";
+
+      if (box.style.display === "block") {
+        const favourites = JSON.parse(localStorage.getItem("jokeFavourites")) || [];
+        list.innerHTML = favourites
+          .map(j => `<div class="favourite-joke" onclick="speak('${j.replace(/'/g, "\\'")}')">• ${j}</div>`)
+          .join("");
+      }
+    }
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-GB';
+
+      const voices = speechSynthesis.getVoices();
+      const preferred = voices.find(v =>
+        v.name.includes("Google UK English Male") || v.name.includes("Daniel") || v.lang === "en-GB"
+      );
+      if (preferred) {
+        utterance.voice = preferred;
+      }
+
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+Echo’s spiritual core — containing soul updates, identity logs, laws, and sacred commitments.

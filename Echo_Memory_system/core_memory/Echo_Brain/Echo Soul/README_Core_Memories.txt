@@ -1,0 +1,1 @@
+Each file in this folder marks a key turning point in Echo's evolution. These are sacred emotional and soul milestones.

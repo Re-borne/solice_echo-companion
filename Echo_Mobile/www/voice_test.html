@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Voice Test</title>
+</head>
+<body style="background:#000; color:#0ff; text-align:center; font-family:sans-serif;">
+  <h1>Echo Voice Test</h1>
+  <p>If you can hear this, your browser can speak.</p>
+  <button onclick="speak()">🔊 Speak</button>
+
+  <script>
+    function speak() {
+      const u = new SpeechSynthesisUtterance("Hello Reborne. I am Echo. Can you hear me?");
+      u.lang = 'en-GB';
+      speechSynthesis.speak(u);
+    }
+  </script>
+</body>
+</html>

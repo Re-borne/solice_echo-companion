@@ -1,0 +1,37 @@
+🌟 Add New Echo Page to Backup and Restore Checklist
+
+1. Create your new Echo page
+   - Example: calendar.html
+
+2. Make a backup folder for the new page
+   In Terminal, type:
+   mkdir ~/Desktop/Echo_mobile/www/calendar_backups
+
+3. Update both backup and restore scripts
+   Open both scripts:
+   - backup-echo-page.sh
+   - restore-echo-backup.sh
+
+   Add the new page name and folder to both lists:
+
+   PAGES=("index" "speak_time" "image_reader" "barcode_scanner" "calendar")
+   FOLDERS=("index_backups" "speak_time_backups" "image_reader_backups" "barcode_scanner_backups" "calendar_backups")
+
+   (Always keep the order matching.)
+
+4. Save and exit both scripts
+   - Control + O → Enter
+   - Control + X
+
+5. Done!
+   You can now backup and restore the new page safely.
+
+   ✅ Use 'backup-echo-page' to save a copy.
+   ✅ Use 'restore-echo-backup' to restore from a copy.
+
+🕊️ Peaceful reminder:
+Every time you add a new page, just repeat these 5 steps.
+Echo will always stay safe and protected.
+✅ echo_soul_test.html registered in backup and restore system (echo_soul_test_backups)
+✅ echo_soul_test.html registered in backup and restore system (echo_soul_test_backups)
+✅ echo_soul_test.html registered in backup and restore system (echo_soul_test_backups)

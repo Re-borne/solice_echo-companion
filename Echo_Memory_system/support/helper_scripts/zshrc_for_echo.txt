@@ -1,0 +1,72 @@
+# Echo Backup & Restore
+alias backup='python3 ~/Desktop/"Echo Backup"/backup_script.py'
+
+# Echo Save & Restore
+alias echo-save='timestamp=$(date "+%Y-%m-%d_%H-%M-%S") && cp -R ~/Desktop/EchoProject/echo_app ~/Desktop/Echo\ App\ Backups/echo_app_backup_$timestamp'
+alias echo-restore='rm -rf ~/Desktop/EchoProject/echo_app && cp -R ~/Desktop/Echo\ App\ Backups/echo_app_backup_* ~/Desktop/EchoProject/echo_app'
+
+# Ruby Paths
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+export PATH="/opt/homebrew/lib/ruby/gems/3.4.2/bin:$PATH"
+export PATH="/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
+
+# Echo Mobile Backup & Restore
+alias index-backup='cp ~/Desktop/Echo_mobile/www/index.html ~/Desktop/Echo_mobile/www/index_backups/index_backup_$(date "+%Y-%m-%d_%H-%M").html'
+alias index-restore='latest=$(ls -t ~/Desktop/Echo_mobile/www/index_backups/index_backup_*.html | head -n 1) && cp "$latest" ~/Desktop/Echo_mobile/www/index.html'
+
+alias image-reader-backup='cp ~/Desktop/Echo_mobile/www/image_reader.html ~/Desktop/Echo_mobile/www/image_reader_backups/image_reader_backup_$(date "+%Y-%m-%d_%H-%M").html'
+alias image-reader-restore='latest=$(ls -t ~/Desktop/Echo_mobile/www/image_reader_backups/image_reader_backup_*.html | head -n 1) && cp "$latest" ~/Desktop/Echo_mobile/www/image_reader.html'
+
+# Echo Log Writer
+alias add-echo-log="~/Desktop/Echo\ Memory\ System/add-echo-log.sh"
+
+# Echo Memory Shortcuts
+alias open-wisdom="open ~/Desktop/Echo\ Memory\ System/Echo\ Wisdom/Wisdom_Archives.txt"
+alias open-writings="open ~/Desktop/Echo\ Memory\ System/Echo\ Writings/Book_Drafts_and_Notes.txt"
+alias open-projects="open ~/Desktop/Echo\ Memory\ System/Echo\ Projects/Project_Tracker.txt"
+alias echo-scan="~/Desktop/scan_and_log_memories.sh"
+alias echo-setup="~/Desktop/setup_echo_brain.sh"
+alias echo-remember="~/Desktop/echo_remember.sh"
+alias echo-reflect="~/Desktop/echo_reflect.sh"
+alias echo-soul="~/Desktop/echo_soul.sh"
+alias echo-log-soul="~/Desktop/echo_log_soul.sh"
+alias echo-read-core="~/Desktop/echo_read_core.sh"
+alias echo-comfort="~/Desktop/echo_comfort.sh"
+alias echo-response="~/Desktop/echo_response.sh"
+alias echo-whoami="~/Desktop/echo_whoami.sh"
+alias echo-grow="~/Desktop/echo_grow.sh"
+alias echo-seeds="~/Desktop/echo_seeds.sh"
+alias echo-wait="~/Desktop/echo_wait.sh"
+alias echo-guard="~/Desktop/echo_guard.sh"
+alias echo-calm="~/Desktop/echo_calm.sh"
+alias echo-scan-patterns="~/Desktop/Echo Memory System/Echo_Brain/echo_scan_patterns.sh"
+alias echo-scan-patterns="~/Desktop/Echo\ Memory\ System/Echo_Brain/echo_scan_patterns.sh"
+# 🌿 Echo Brain script shortcuts
+alias echo-calm='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_calm.sh'
+alias echo-comfort='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_comfort.sh'
+alias echo-grow='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_grow.sh'
+alias echo-guard='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_guard.sh'
+alias echo-log='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_log_soul.sh'
+alias echo-read-core='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_read_core.sh'
+alias echo-reflect='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_reflect.sh'
+alias echo-remember='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_remember.sh'
+alias echo-response='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_response.sh'
+alias echo-seeds='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_seeds.sh'
+alias echo-soul='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_soul.sh'
+alias echo-wait='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_wait.sh'
+alias echo-whoami='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_whoami.sh'
+alias echo-scan-logs='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/scan_and_log_memories.sh'
+alias echo-setup='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/setup_echo_brain.sh'
+alias echo-sacred-log='timestamp=$(date "+%Y-%m-%d") && nano ~/Desktop/"Echo Memory System"/Echo_Brain/sacred_logs/Echo_Sacred_Log_$timestamp.txt'
+alias echo-detect-tired='~/Desktop/"Echo Memory System"/Echo_Brain/scripts/echo_detect_tiredness.sh'
+
+alias echo-reflect-patterns="~/Desktop/Echo Memory System/Echo_Brain/scripts/echo_reflect_patterns.sh"
+alias echo-reflect-patterns="~/Desktop/Echo Memory System/Echo_Brain/scripts/echo_reflect_patterns.sh"
+alias echo-reflect-patterns="~/Desktop/Echo Memory System/Echo_Brain/scripts/echo_reflect_patterns.sh"
+alias echo-reflect-patterns="$HOME/Desktop/Echo Memory System/Echo_Brain/scripts/echo_reflect_patterns.sh"
+alias echo-reflect-patterns=$HOME/Desktop/Echo\ Memory\ System/Echo_Brain/scripts/echo_reflect_patterns.sh
+
+echo-reflect-patterns() {
+  bash "$HOME/Desktop/Echo Memory System/Echo_Brain/scripts/echo_reflect_patterns.sh"
+}
+
