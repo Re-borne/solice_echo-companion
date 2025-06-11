@@ -36,8 +36,10 @@
       margin: 0 auto;
       text-align: left;
       box-shadow: 0 0 10px rgba(0,255,0,0.3);
-      min-height: 200px;
+      height: 300px;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
     }
     .user { color: #ccc; margin-bottom: 1rem; }
     .echo { color: #0f0; margin-bottom: 1rem; }
@@ -79,6 +81,7 @@
       p.className = sender;
       p.textContent = (sender === 'user' ? 'You: ' : 'Echo: ') + text;
       conversation.appendChild(p);
+      // ✅ Always scroll to bottom
       conversation.scrollTop = conversation.scrollHeight;
     }
 
