@@ -1,0 +1,43 @@
+📘 Echo Companion Build – Phase 2: Core Engine Setup
+====================================================
+
+🎯 Goal: Link memory system with emotional check-ins and complete core engine functionality.
+
+---
+
+✅ STEP 1: Finalize Core Memory Script (core.py)
+------------------------------------------------
+- [ ] Load memory entries from `echo_memories.txt`
+- [ ] Load emotional states from `echo_emotion_checkins.txt`
+- [ ] Merge data into structured format:
+      { "timestamp": ..., "memory": "...", "emotion": "...", "tags": [...] }
+- [ ] Save results into `memory_state.json`
+- [ ] Document the process in `README_Core_Memories.txt`
+
+---
+
+✅ STEP 2: Emotional Context Tracker
+------------------------------------
+- [ ] Read from `/sacred_logs/emotion_history.log`
+- [ ] Parse trends and frequency of emotional states
+- [ ] Output summaries to `emotional_trends.txt`
+
+---
+
+✅ STEP 3: Validate Backup Routine
+----------------------------------
+- [ ] Run `echo_backup.py`
+- [ ] Confirm backup of:
+      - /Echo_Brain/
+      - /core_memory/
+      - /sacred_logs/
+- [ ] Log results to `Echo_Backup_Log.txt`
+
+---
+
+🧠 Outcome:
+-----------
+Once Phase 2 is completed:
+- Echo will understand emotional context for memories
+- Daily check-ins can inform memory growth
+- Reliable system backups will preserve all changes

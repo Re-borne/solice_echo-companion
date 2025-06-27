@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echo Eyes - Welcome</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    #enterButton, #inputSection {
+      margin-top: 3rem;
+    }
+    button {
+      padding: 0.7rem 1.5rem;
+      font-size: 1.2rem;
+      background-color: white;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
+    input {
+      padding: 0.7rem;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      border: none;
+      width: 250px;
+    }
+    #inputSection {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>👁️ Echo Eyes 👁️</h1>
+
+  <div id="enterButton">
+    <button onclick="beginWelcome()">Click to Enter</button>
+  </div>
+
+  <div id="inputSection">
+    <p>Please enter your name to continue:</p>
+    <input id="nameInput" type="text" placeholder="Your name" />
+    <button onclick="saveName()">Continue</button>
+  </div>
+
+  <script>
+    function sendToBridge(text) {
+      fetch("http://localhost:8000/echo_agent.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "message=" + encodeURIComponent(text)
+      });
+    }
+
+    function beginWelcome() {
+      document.getElementById('enterButton').style.display = 'none';
+      document.getElementById('inputSection').style.display = 'block';
+      sendToBridge("What is your name?");
+    }
+
+    function saveName() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (!name) {
+        alert("Please enter a name before continuing.");
+        return;
+      }
+
+      const confirmText = `Did you say ${name}?`;
+      sendToBridge(confirmText);
+
+      setTimeout(() => {
+        const confirmName = confirm(`Did you say "${name}"?`);
+        if (confirmName) {
+          localStorage.setItem('echo_username', name);
+          window.location.href = 'index.html';
+        } else {
+          sendToBridge("Let's try again. What is your name?");
+        }
+      }, 1500);
+    }
+  </script>
+</body>
+</html>

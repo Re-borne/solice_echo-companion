@@ -1,0 +1,30 @@
+File Name,Purpose / Description
+barcode_scanner.html,Scans barcodes using camera; future use in product lookup or labeling
+calendar.html,Sets and manages calendar events using voice commands
+echo_soul_test.html,Tests Echo's soul file and memory recall structure
+eyes_image.html,Processes image input and prepares for OCR (text extraction)
+eyes_ocr.html,Optical character recognition from uploaded image
+eyes_screenshot.html,Processes screenshot image to read content via OCR
+eyes_text_reader.html,Main Echo Eyes reading tool; reads last image or screenshot aloud
+image_reader.html,Handles reading of latest screenshot or image for accessibility
+index.html,Main app entry point; redirects or loads app view
+joke.html,Echo tells jokes using voice output
+library_of_truth.html,Displays categorized wisdom for reflection
+note_playback.html,Plays back saved voice notes
+read_memory.php,Reads short-term and archived Echo memories
+reflect.html,Reflects on emotional tags like #pain and speaks back summary
+take_note.html,Lets user dictate and save text notes via voice
+test.html,Temporary layout or voice test file (likely unused)
+voice_test.html,Voice synthesis/recognition test file
+welcome.html,Echo’s central welcome interface with name prompt and carousel
+wisdom.html,Displays random wisdom quotes; allows saving favourites
+zzz_deprecated_old_index.html,Archived version of homepage
+zzz_old_test.html,Early prototype for layout or concept testing
+zzz_old_wisdom.html,Old version of wisdom page
+zzz_soul_reflect.html,Old version of reflect page
+zzz_voice_name_test.html,Test version for voice name input
+suggest_comfort.php,Detects distress tags in memory and speaks comfort messages
+read_message_backup_2025-05-01_23-21.html,Backup of message reading page
+voice_search_knowledge_unified.html,Asks questions and searches knowledge files
+library.html,"Echo’s library page — access books, notes, wisdom"
+save_memory.php,Saves short-term and long-term memory inputs

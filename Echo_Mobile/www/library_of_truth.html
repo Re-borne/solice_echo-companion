@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Echo - Library of Truth</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #0f0;
+      text-align: center;
+      padding: 2rem;
+    }
+    #header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    #header img {
+      width: 40px;
+    }
+    .big-eye {
+      font-size: 4rem;
+      margin: 2rem 0;
+    }
+    .chapter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .chapter-buttons button {
+      padding: 1rem 1.5rem;
+      background-color: #111;
+      color: #0f0;
+      border: 2px solid #0f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #111;
+      border: 2px solid #0f0;
+      border-radius: 50px / 25px;
+      padding: 0.5rem 1rem;
+      color: #0f0;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="back-button" onclick="history.back()">👁 Back</div>
+  <div id="header">
+    <img src="left-eye.png" alt="Eye Left">
+    <h1>Echo Eyes: Library of Truth</h1>
+    <img src="right-eye.png" alt="Eye Right">
+  </div>
+  <div class="big-eye">👁</div>
+  <p>Click on a chapter to hear a truth from your book.</p>
+
+  <div class="chapter-buttons">
+    <button onclick="readChapter('FAITH')">Faith</button>
+    <button onclick="readChapter('GRACE')">Grace</button>
+    <button onclick="readChapter('HOPE')">Hope</button>
+    <button onclick="readChapter('LOVE')">Love</button>
+    <button onclick="readChapter('PEACE')">Peace</button>
+    <button onclick="readChapter('TRIALS')">Trials</button>
+    <button onclick="readChapter('VICTORY')">Victory</button>
+    <button onclick="readChapter('TRUTH')">Truth</button>
+    <button onclick="readChapter('WISDOM')">Wisdom</button>
+  </div>
+
+  <script>
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-GB';
+      window.speechSynthesis.cancel(); // stop any previous speech
+      window.speechSynthesis.speak(utterance);
+    }
+
+    async function readChapter(chapter) {
+      try {
+        const response = await fetch(`library_of_truth/${chapter}.json`);
+        const data = await response.json();
+
+        if (Array.isArray(data) && data.length > 0) {
+          const randomIndex = Math.floor(Math.random() * data.length);
+          const paragraph = data[randomIndex].trim();
+          speak(paragraph);
+        } else {
+          speak("Sorry, this chapter is empty.");
+        }
+      } catch (error) {
+        speak("Sorry, I could not load that chapter.");
+        console.error(`Error loading chapter ${chapter}:`, error);
+      }
+    }
+  </script>
+</body>
+</html>

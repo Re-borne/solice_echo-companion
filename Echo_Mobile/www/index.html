@@ -100,6 +100,31 @@
     .carousel-arrow:hover {
       transform: scale(1.2);
     }
+    #reflect-button {
+      margin-top: 2rem;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      border-radius: 50px / 25px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #reflect-button:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+    #conversation {
+      margin-top: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+    .echo {
+      color: #0a0;
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -137,11 +162,19 @@
           <button class="sub-button" onclick="location.href='read_message.html'">📩 Read Message</button>
           <button class="sub-button" onclick="location.href='library.html'">📚 Library</button>
           <button class="sub-button" onclick="location.href='reflect.html'">🌱 Reflect</button>
+          <button class="sub-button" onclick="location.href='library_of_truth.html'">📖 Library of Truth</button>
         </div>
       </div>
       <button class="carousel-arrow" onclick="scrollCarousel(1)">&#8594;</button>
     </div>
   </div>
+
+  <!-- 🧠 Reflect Memory Button -->
+  <div>
+    <button id="reflect-button" onclick="reflectMemory()">🧠 Reflect Memory</button>
+  </div>
+
+  <div id="conversation"></div>
 
   <div style="margin-top: 3rem;">
     <button onclick="resetEcho()" style="padding: 10px 20px; border-radius: 50px / 25px; font-size: 1rem; background-color: #ffecec; border: 2px solid #990000; color: #990000;">
@@ -152,8 +185,7 @@
   <script>
     function resetEcho() {
       localStorage.removeItem("echo_username");
-      alert("Echo has been reset. You’ll return to the welcome screen.");
-      window.location.href = "welcome.html";
+      window.location.href = "echo_welcome.html";
     }
 
     function scrollCarousel(direction) {
@@ -165,95 +197,46 @@
       }
     }
 
-    async function speakAndListen() {
-      const { TextToSpeech, SpeechRecognition } = window.Capacitor.Plugins;
-
-      try {
-        await TextToSpeech.speak({
-          text: "Please say your name",
-          locale: "en-GB",
-          rate: 1.0
-        });
-      } catch (ttsError) {
-        console.error("TTS failed:", ttsError);
-        alert("Text-to-speech failed. Please try again.");
-        return;
-      }
-
-      setTimeout(async () => {
-        let availability;
-        try {
-          const resp = await SpeechRecognition.available();
-          availability = resp.available;
-        } catch (availErr) {
-          console.error("Error checking availability:", availErr);
-          alert("Could not check speech recognition availability.");
-          return;
-        }
-
-        if (!availability) {
-          alert("Speech recognition not available on this device.");
-          return;
-        }
-
-        let permStatus;
-        try {
-          permStatus = await SpeechRecognition.requestPermissions();
-        } catch (permErr) {
-          console.error("Permissions error:", permErr);
-          alert("Error requesting speech permissions.");
-          return;
-        }
-
-        if (permStatus.speechRecognition !== "granted") {
-          alert("Speech recognition permission was denied.");
-          return;
-        }
-
-        let result;
-        try {
-          result = await SpeechRecognition.start({
-            language: "en-GB",
-            maxResults: 1,
-            partialResults: false
-          });
-        } catch (startErr) {
-          console.error("Error starting recognition:", startErr);
-          alert("Speech recognition failed to start.");
-          return;
-        }
-
-        if (!result.matches || result.matches.length === 0) {
-          alert("No speech match detected. Please try again.");
-          return;
-        }
-
-        const name = result.matches[0];
-        const userConfirmed = window.confirm(`Did you say "${name}"?`);
-
-        if (userConfirmed) {
-          localStorage.setItem("echo_username", name);
-          window.location.reload();
-        } else {
-          speakAndListen();
-        }
-      }, 2000);
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-GB';
+      utterance.rate = 1;
+      speechSynthesis.speak(utterance);
     }
 
-    // ... other functions like logDailyEmotion, readRecentEmotions, etc. go here
+    function reflectMemory() {
+      fetch('http://localhost:8000/reflect_memory.php')
+        .then(response => response.text())
+        .then(memory => {
+          const reply = "Echo reflects: " + memory;
+          speak(reply);
+          const conversation = document.getElementById("conversation");
+          const p = document.createElement("p");
+          p.className = "echo";
+          p.textContent = reply;
+          conversation.appendChild(p);
+          conversation.scrollTop = conversation.scrollHeight;
+        })
+        .catch(() => {
+          const error = "Memory reflection failed.";
+          speak(error);
+          const conversation = document.getElementById("conversation");
+          const p = document.createElement("p");
+          p.className = "echo";
+          p.textContent = error;
+          conversation.appendChild(p);
+          conversation.scrollTop = conversation.scrollHeight;
+        });
+    }
 
     window.onload = () => {
       const savedName = localStorage.getItem("echo_username");
-      if (!savedName) {
-        speakAndListen();
-      } else {
-        const greeting = `Welcome, ${savedName}.`;
-        document.getElementById("greeting").textContent = greeting;
-        document.getElementById("greeting").style.display = "block";
-        document.getElementById("main-heading").textContent = "Echo Eyes";
-        document.getElementById("eye-button").style.display = "block";
-        document.getElementById("extra-buttons").style.display = "block";
-      }
+      document.getElementById("greeting").textContent =
+        savedName ? `Welcome, ${savedName}.` : "Welcome, friend.";
+      document.getElementById("greeting").style.display = "block";
+      document.getElementById("main-heading").textContent = "Echo Eyes";
+      document.getElementById("eye-button").style.display = "block";
+      document.getElementById("extra-buttons").style.display = "block";
     };
   </script>
 </body>

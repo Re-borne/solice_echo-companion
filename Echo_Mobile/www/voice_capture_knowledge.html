@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voice Capture Knowledge</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    #header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    #header img {
+      width: 40px;
+      height: 40px;
+    }
+
+    #main-eye {
+      font-size: 64px;
+      margin-bottom: 2rem;
+    }
+
+    button {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      border: none;
+      border-radius: 50px / 25px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    #output, #question, #confirmation {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      color: #222;
+    }
+
+    #category-buttons {
+      display: none;
+      margin-top: 2rem;
+    }
+
+    #category-buttons button {
+      margin: 0.5rem;
+    }
+
+    #back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      border-radius: 50px / 25px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Back Button -->
+  <button id="back-button" onclick="goBack()">👁️</button>
+
+  <!-- Echo Eyes Heading -->
+  <div id="header">
+    <img src="eye_icon.png" alt="Eye Icon" />
+    <h1>Echo Eyes – Voice Capture</h1>
+    <img src="eye_icon.png" alt="Eye Icon" />
+  </div>
+
+  <!-- Big Eye Icon -->
+  <div id="main-eye">👁️</div>
+
+  <!-- Voice Capture Button -->
+  <button onclick="captureVoice()">🎤 Capture Voice</button>
+
+  <!-- Output -->
+  <div id="output">Your spoken input will appear here.</div>
+  <div id="question"></div>
+
+  <!-- Category Buttons -->
+  <div id="category-buttons">
+    <button onclick="saveWisdom('gardening')">Gardening</button>
+    <button onclick="saveWisdom('healing')">Healing</button>
+    <button onclick="saveWisdom('writing')">Writing</button>
+  </div>
+
+  <!-- Confirmation -->
+  <div id="confirmation"></div>
+
+  <script>
+    let capturedText = '';
+
+    function goBack() {
+      window.location.href = "index.html";
+    }
+
+    async function captureVoice() {
+      const output = document.getElementById('output');
+      const question = document.getElementById('question');
+      const buttons = document.getElementById('category-buttons');
+      const confirmation = document.getElementById('confirmation');
+
+      output.innerText = "Listening...";
+      question.innerText = "";
+      buttons.style.display = "none";
+      confirmation.innerText = "";
+
+      const isCapacitor = !!window.Capacitor?.Plugins?.SpeechRecognition;
+
+      if (isCapacitor) {
+        try {
+          const available = await window.Capacitor.Plugins.SpeechRecognition.available();
+          if (!available.value) {
+            output.innerText = "Speech recognition not available.";
+            return;
+          }
+
+          const hasPerm = await window.Capacitor.Plugins.SpeechRecognition.hasPermission();
+          if (!hasPerm.value) {
+            await window.Capacitor.Plugins.SpeechRecognition.requestPermissions();
+          }
+
+          const result = await window.Capacitor.Plugins.SpeechRecognition.start({
+            language: "en-GB",
+            maxResults: 1,
+            partialResults: false,
+            popup: false
+          });
+
+          capturedText = result.matches?.[0] || "No voice detected.";
+          output.innerText = `Heard: "${capturedText}"`;
+          question.innerText = "Which topic should I save this under?";
+          buttons.style.display = "block";
+
+        } catch (error) {
+          output.innerText = "Error: " + error.message;
+        }
+
+      } else {
+        // Fallback to browser speech recognition
+        try {
+          const recognition = new webkitSpeechRecognition();
+          recognition.lang = 'en-GB';
+          recognition.interimResults = false;
+          recognition.maxAlternatives = 1;
+
+          recognition.onresult = function(event) {
+            capturedText = event.results[0][0].transcript;
+            output.innerText = `Heard: "${capturedText}"`;
+            question.innerText = "Which topic should I save this under?";
+            buttons.style.display = "block";
+          };
+
+          recognition.onerror = function(event) {
+            output.innerText = "Browser recognition error: " + event.error;
+          };
+
+          recognition.start();
+        } catch (error) {
+          output.innerText = "Browser fallback failed: " + error.message;
+        }
+      }
+    }
+
+    function saveWisdom(category) {
+      fetch('save_knowledge.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `text=${encodeURIComponent(capturedText)}&category=${category}`
+      })
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('confirmation').innerText = `Saved under ${category}.`;
+        document.getElementById('category-buttons').style.display = 'none';
+        document.getElementById('question').innerText = '';
+      })
+      .catch(err => {
+        document.getElementById('confirmation').innerText = "Failed to save.";
+      });
+    }
+  </script>
+
+</body>
+</html>

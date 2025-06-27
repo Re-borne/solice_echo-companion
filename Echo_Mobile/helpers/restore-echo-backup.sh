@@ -2,12 +2,15 @@
 
 # Unified Restore Script for Echo Pages
 
-BASE_DIR="$HOME/Desktop/Echo_mobile/www"
+BASE_DIR="$HOME/Desktop/master_echo_build/echo_interactive/www"
+
 
 # Separate arrays for page names and their backup folders
-PAGES=("index" "speak_time" "image_reader" "barcode_scanner" "tell_joke" "take_note" "wisdom" "set_alarm" "set_reminder" "read_message" "library")
+PAGES=("index" "speak_time""voice_capture_knowledge"
+"voice_capture_knowledge_backups" "image_reader" "barcode_scanner" "tell_joke" "take_note" "wisdom" "set_alarm" "set_reminder" "read_message" "library")
 
-FOLDERS=("index_backups" "speak_time_backups" "image_reader_backups" "barcode_scanner_backups" "tell_joke_backups" "take_note_backups" "wisdom_backups" "set_alarm_backups" "set_reminder_backups" "read_message_backups" "library_backups")
+FOLDERS=("index_backups" "speak_time_backups""voice_capture_knowledge"
+"voice_capture_knowledge_backups" "image_reader_backups" "barcode_scanner_backups" "tell_joke_backups" "take_note_backups" "wisdom_backups" "set_alarm_backups" "set_reminder_backups" "read_message_backups" "library_backups")
 
 # Display available pages to restore
 echo -e "\nWhich page do you want to restore?"

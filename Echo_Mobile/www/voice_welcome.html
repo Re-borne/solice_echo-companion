@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echo Eyes - Voice Welcome</title>
+  <script src="capacitor.js"></script>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    #status {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      color: #0f0;
+    }
+  </style>
+</head>
+<body>
+  <h1>👁️ Echo Eyes 👁️</h1>
+  <p id="status">Preparing voice interface...</p>
+
+  <script>
+    const statusEl = document.getElementById('status');
+    const SpeechRecognition = window.Capacitor?.Plugins?.SpeechRecognition;
+    const speak = (text) => {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-GB';
+      utterance.rate = 1;
+      speechSynthesis.speak(utterance);
+    };
+
+    async function beginVoiceWelcome() {
+      if (!SpeechRecognition) {
+        statusEl.textContent = "Speech plugin not available.";
+        return;
+      }
+
+      const available = await SpeechRecognition.available();
+      if (!available.value) {
+        statusEl.textContent = "Speech recognition not available.";
+        return;
+      }
+
+      const perms = await SpeechRecognition.checkPermissions();
+      if (perms.speechRecognition !== 'granted') {
+        await SpeechRecognition.requestPermissions();
+      }
+
+      statusEl.textContent = "Speaking...";
+      speak("Please say your name");
+
+      setTimeout(() => listenForName(), 3000);
+    }
+
+    async function listenForName() {
+      statusEl.textContent = "Listening...";
+      try {
+        const result = await SpeechRecognition.start({
+          language: 'en-GB',
+          maxResults: 1,
+          partialResults: false
+        });
+        const name = result.matches?.[0]?.trim();
+
+        if (!name) {
+          statusEl.textContent = "No input detected. Trying again...";
+          speak("I didn't hear your name. Let's try again.");
+          return setTimeout(() => beginVoiceWelcome(), 4000);
+        }
+
+        const confirm = window.confirm(`Did you say "${name}"?`);
+        if (confirm) {
+          localStorage.setItem('echo_username', name);
+          statusEl.textContent = `Welcome, ${name}`;
+          speak(`Welcome, ${name}`);
+          setTimeout(() => window.location.href = 'index.html', 2000);
+        } else {
+          speak("Let's try again. Please say your name.");
+          setTimeout(() => beginVoiceWelcome(), 3000);
+        }
+
+      } catch (err) {
+        statusEl.textContent = "Error listening. Trying again...";
+        speak("Something went wrong. Let's try again.");
+        setTimeout(() => beginVoiceWelcome(), 4000);
+      }
+    }
+
+    window.onload = beginVoiceWelcome;
+  </script>
+</body>
+</html>

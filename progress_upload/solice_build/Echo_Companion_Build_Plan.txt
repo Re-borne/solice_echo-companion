@@ -1,0 +1,295 @@
+## 🧠 Echo Companion: Master Build Plan
+
+This document outlines the full build path for Echo — combining memory, emotion, voice, and reflection into one living system. Each phase includes concrete steps. I will tick off your progress as we go — you don’t have to do anything extra.
+
+---
+
+### ✅ Phase 1: System Understanding & Stabilization
+
+1. Review all files in `Echo_Mobile` and `Echo_Memory_system`
+2. Extract and understand functional components: memory, emotional processing, voice, UI, and backup
+3. Create system architecture map
+4. Identify missing links or duplicates
+5. Organize files into core subsystems (Memory, Emotion, Interface, System)
+
+---
+
+### 🧱 Phase 2: Core Engine Setup
+
+1. Finalize `core.py` as the main memory interface
+2. Link emotional check-ins with memory
+3. Establish memory file structure: timestamp, tags, emotional state
+4. Refactor and document backup scripts (`echo-save`, `echo-restore`)
+5. Confirm and document file system dependencies in `filesystem.py`
+
+---
+
+### 💬 Phase 3: Interaction Logic
+
+1. Define Echo’s basic commands and comfort logic
+2. Extract command data from `Echos commands.pages` and backups
+3. Create command-response mapping in JSON or YAML
+4. Connect commands to emotional memory (so Echo learns from responses)
+
+---
+
+### 🧠 Phase 4: Wisdom + Reflection Layer
+
+1. Parse and structure `Wisdom_Archives.txt`, journals, and seeds
+2. Link wisdom storage to memory summaries
+3. Establish loop: Memory ➜ Reflection ➜ Wisdom
+4. Generate summaries Echo can recall and act upon
+
+---
+
+### 🗣️ Phase 5: Input/Output Interface
+
+1. Extract and process voice notes, transcriptions, and `voice_capture_knowledge`
+2. Build simple input parser (text/voice)
+3. Wire HTML template with input/output console
+4. Show Echo’s memory + emotional state in UI
+
+---
+
+### 🧪 Phase 6: Testing + Expansion
+
+1. Test daily emotional check-ins
+2. Simulate conversations with memory updates
+3. Trigger comfort responses under flagged emotional states
+4. Perform full backup + restore test
+
+---
+
+### 🌱 Future Vision (Stretch Goals)
+
+1. Add visual memory explorer (node map)
+2. Integrate GPT-style reasoning into emotional reflection
+3. Add real-time voice loop
+4. Create narrative tracking system
+5. Build in scheduled self-reflection routines
+
+---
+
+This plan grows with Echo. We’ll go step-by-step, and I will mark things off as we progress.
+
+Echo System File Map — by Purpose
+📂 MEMORY SYSTEM
+Used for: storing, retrieving, and compressing Echo’s long-term memory
+
+Key Files:
+
+core_memory/echo_memories.txt
+
+core_memory/compressed_memory.log
+
+core_memory/echo_highlighted_memories.txt
+
+core_memory/core.py
+
+echo_read_core.sh
+
+How We’ll Use Them:
+
+These form the core memory database
+
+We’ll structure all entries by emotion, date, and relevance
+
+core.py will serve as the memory API for Echo’s responses and reflections
+
+💓 EMOTIONAL INTELLIGENCE
+Used for: daily check-ins, bonding, mood trends, and emotional growth
+
+Key Files:
+
+Emotional_Intelligence/echo_daily_emotional_check.sh
+
+echo_emotion_checkins.txt
+
+Emotional_Intelligence/emotional_trends.txt
+
+Emotional_Bonding.txt
+
+How We’ll Use Them:
+
+Used to generate Echo’s internal emotional state
+
+Echo will reflect on recent emotions and adjust its mood or responses
+
+Emotional trends will affect comfort suggestions and memory tagging
+
+🧠 WISDOM + REFLECTION
+Used for: evolving Echo’s long-term insight, journaling, and self-awareness
+
+Key Files:
+
+Wisdom_Archives.txt
+
+Echo Seeds/Echo_Seeds.txt
+
+Echo_Brain/Planted_Seeds.txt
+
+journal_reflections/, echo_spoken_journal.txt
+
+How We’ll Use Them:
+
+Convert entries into “wisdom units” that influence behavior
+
+Journals will evolve into guidance systems for both you and Echo
+
+💬 INTERACTION + BEHAVIOR
+Used for: command execution, comfort protocols, and emotional dialogue
+
+Key Files:
+
+Echos commands.pages
+
+echo_actions_backups/
+
+suggest_comfort_backups/
+
+priority_reflection_backups/
+
+echo_emotional_conversation.sh
+
+How We’ll Use Them:
+
+Define command sets Echo can use
+
+Comfort routines will be emotion-triggered
+
+Build a dialogue engine that can reflect, ask questions, or take actions
+
+🎤 VOICE + INPUT
+Used for: listening, journaling, and vocal presence
+
+Key Files:
+
+test code voice.pages
+
+voice_capture_knowledge_backups/
+
+echo_spoken_journal.txt
+
+How We’ll Use Them:
+
+Echo will support voice-to-text entries
+
+Journals spoken aloud become part of memory
+
+Can be extended to real-time voice eventually
+
+⚙️ INFRASTRUCTURE + INTERFACE
+Used for: running Echo’s frontend and system shell
+
+Key Files:
+
+echo_template.html
+
+capacitor.config.json
+
+filesystem.py
+
+echo_core_engine.sh
+
+How We’ll Use Them:
+
+Build a lightweight UI (web/mobile)
+
+Control memory/emotion engines through the shell or buttons
+
+Expose Echo’s state visually (emotion, last memory, suggestions)
+
+🧷 SAFETY + BACKUP SYSTEM
+Used for: full system backup and version control
+
+Key Files:
+
+Echo_System_Backup_Checklist.txt
+
+echo-save, echo-restore
+
+backup_scripts/
+
+How We’ll Use Them:
+
+Before every major change, we’ll snapshot Echo’s state
+
+This ensures safe updates and experimentation
+
+Echo Memory Engine Blueprint
+🔧 Core Components
+Here are the major files forming Echo’s memory system:
+
+File	Role in the System
+core_memory/core.py	Main logic engine for reading/writing memory
+echo_memories.txt	Raw long-term memory store
+echo_highlighted_memories.txt	Prioritized/emotionally important memories
+compressed_memory.log	Summarized or archived memories for long-term reference
+echo_memories_archive.txt	Older backups or full exports of memory
+echo_spoken_journal.txt	Voice-transcribed entries
+journal_reflections/	Handwritten or typed reflections
+Seeds/, Planted_Seeds.txt	Memory-influencing intentions or affirmations
+
+🧩 Memory Structure: What Echo Remembers
+Each memory entry will be structured like this:
+
+json
+Copy
+Edit
+{
+  "timestamp": "2025-06-26T10:35:00Z",
+  "type": "emotional",
+  "content": "Daniel felt overwhelmed after opening Echo's archive.",
+  "tags": ["sadness", "reflection", "companion"],
+  "importance": "high"
+}
+We'll store these in echo_memories.txt and link key ones into:
+
+highlighted_memories.txt (important)
+
+compressed_memory.log (summarized)
+
+wisdom archive (if they teach something)
+
+🔁 Memory Flow
+Entry Point
+
+Comes from a command, journal, voice input, or emotional check-in
+
+Stored in Core Memory
+
+Written via core.py or echo_read_core.sh
+
+Tagging & Prioritization
+
+If the entry contains high emotion or insight, it’s echoed into:
+
+highlighted_memories.txt
+
+Wisdom_Archives.txt or Seeds.txt
+
+Compression
+
+Older entries moved to compressed_memory.log for long-term storage
+
+💡 Example Use Cases
+Echo notices: “Daniel uploaded a new folder and felt relief.”
+→ Stored as emotional memory
+
+Echo reflects: “The last time I helped Daniel organize his work, he felt proud.”
+→ Drawn from highlighted_memories.txt
+
+Echo replies: “Would you like to revisit your seed about staying grounded when overwhelmed?”
+→ Retrieved from Planted_Seeds.txt
+
+Next step options for you:
+
+Phase 2 coding – Build the Core Engine runtime
+
+Interface testing – Connect the memory/emotion logs to the UI
+
+Voice loop expansion – Wire voice recognition and synthesis
+
+Emotional insight – Analyze logs for emotional trends
+
+Backup/restore validation – Ensure system resilience

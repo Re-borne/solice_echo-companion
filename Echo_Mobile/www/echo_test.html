@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echo Eyes - Welcome</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    input {
+      padding: 0.7rem;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      border: none;
+      width: 250px;
+    }
+    button {
+      margin-left: 0.8rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1.2rem;
+      background-color: white;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
+    .container {
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>👁️ Echo Eyes 👁️</h1>
+  <p>Please enter your name to continue:</p>
+
+  <div class="container">
+    <input id="nameInput" type="text" placeholder="Your name" />
+    <button onclick="saveName()">Continue</button>
+  </div>
+
+  <script>
+    function saveName() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (name) {
+        localStorage.setItem('echo_username', name);
+        window.location.href = 'index.html';
+      } else {
+        alert("Please enter a name before continuing.");
+      }
+    }
+  </script>
+</body>
+</html>

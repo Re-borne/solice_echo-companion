@@ -4,7 +4,7 @@ import os
 print("🔁 Echo Bridge Listener is running...")
 
 # ✅ Correct path — matches PHP file writes
-bridge_file = "/Users/danielcolyer/Desktop/master_echo_bulid/Echo_Memory_system/echo_agent/bridge_message.txt"
+bridge_file = "/Users/danielcolyer/Desktop/master_echo_build/Echo_Memory_system/echo_agent/bridge_message.txt"
 
 while True:
     if os.path.exists(bridge_file):

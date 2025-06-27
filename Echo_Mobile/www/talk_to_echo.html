@@ -43,7 +43,7 @@
     }
     .user { color: #ccc; margin-bottom: 1rem; }
     .echo { color: #0f0; margin-bottom: 1rem; }
-    #listen-button {
+    #listen-button, #reflect-button {
       margin-top: 2rem;
       padding: 10px 20px;
       font-size: 16px;
@@ -52,6 +52,10 @@
       background: #0077cc;
       color: white;
       cursor: pointer;
+    }
+    #reflect-button {
+      margin-left: 1rem;
+      background: #4CAF50;
     }
   </style>
 </head>
@@ -64,7 +68,10 @@
 
   <img id="eye-icon" src="eye.png" alt="Eye Icon" />
   <div id="conversation"></div>
-  <button id="listen-button" onclick="startListening()">🎙️ Listen Again</button>
+  <div>
+    <button id="listen-button" onclick="startListening()">🎙️ Listen Again</button>
+    <button id="reflect-button" onclick="reflectMemory()">🧠 Reflect Memory</button>
+  </div>
 
   <script>
     const conversation = document.getElementById('conversation');
@@ -76,13 +83,44 @@
       speechSynthesis.speak(utterance);
     }
 
+    function logMessage(sender, message) {
+      const logData = {
+        sender: sender,
+        message: message,
+        timestamp: new Date().toISOString()
+      };
+      fetch('http://localhost:8000/log_conversation.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(logData)
+      });
+    }
+
+    function saveToBrain(text) {
+      fetch('http://localhost:8000/save_to_brain.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+    }
+
     function addMessage(text, sender) {
       const p = document.createElement('p');
       p.className = sender;
       p.textContent = (sender === 'user' ? 'You: ' : 'Echo: ') + text;
       conversation.appendChild(p);
-      // ✅ Always scroll to bottom
       conversation.scrollTop = conversation.scrollHeight;
+      logMessage(sender, text);
+    }
+
+    function loadConversationHistory() {
+      fetch('http://localhost:8000/get_conversation_log.php')
+        .then(response => response.json())
+        .then(messages => {
+          messages.forEach(entry => {
+            addMessage(entry.message, entry.sender);
+          });
+        });
     }
 
     function sendToEchoAgent(text) {
@@ -96,6 +134,7 @@
         const decodedReply = new DOMParser().parseFromString(reply, 'text/html').documentElement.textContent;
         addMessage(decodedReply, 'echo');
         speak(decodedReply);
+        saveToBrain(decodedReply);
       })
       .catch(() => {
         const fallback = "Sorry, Echo agent is not responding.";
@@ -125,7 +164,22 @@
       recognition.start();
     }
 
+    function reflectMemory() {
+      fetch('http://localhost:8000/reflect_memory.php')
+        .then(response => response.text())
+        .then(memory => {
+          addMessage(memory, 'echo');
+          speak(memory);
+        })
+        .catch(() => {
+          const err = "Memory reflection failed.";
+          addMessage(err, 'echo');
+          speak(err);
+        });
+    }
+
     window.onload = () => {
+      loadConversationHistory();
       speak("Please speak to me, my brother.");
       startListening();
     };
